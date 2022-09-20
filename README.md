@@ -103,6 +103,11 @@ Ces switch ont de nombreux avantages en plus d’être qualitatifs, il en existe
 ⦁ Pas d’intensité de jeu.
 
 # Prototype V2
+
+![DSC_0839](https://user-images.githubusercontent.com/7162775/191325755-bde881e0-9758-4600-a013-dbf99e0f6cee.JPG)
+![IMG_20190110_194228031](https://user-images.githubusercontent.com/7162775/191325871-94bc2cf5-047f-44cb-ab51-c4f78cc396f5.jpg)
+
+
 En arrivant à Rennes en 2017, j’avais fait l’acquisition d’un nouveau concertina. 
 L’idée de trafiquer l’ancien pour en faire une version MIDI m’a alors traversé l’esprit.
 J’ai également découvert l’impression et la modélisation 3D. J’ai vite compris l’intérêt de cette technologie concernant mon projet.
@@ -153,6 +158,9 @@ Le souffle sera simulé par un bouton de clavier mécanique placé sur le côté
 
 
 ## Synthèse sonore et Mozzi :
+![MelodicaMidi](https://user-images.githubusercontent.com/7162775/191325909-834b5312-a6d7-411f-a7e2-d3204c3f9bb8.JPG)
+![photoMidi](https://user-images.githubusercontent.com/7162775/191325943-2f39d959-f9ad-4015-856d-64fcb9e27225.jpg)
+
 ![278510975_10222100827969495_4949327471096888762_n (1)](https://user-images.githubusercontent.com/7162775/191317473-b5d5cbe5-68b5-4e9c-a069-f2e92ddda12a.jpg)
 ![concertinaMIDI2](https://user-images.githubusercontent.com/7162775/191317493-8f808993-de02-49d5-971b-ad84e6c936e7.jpg)
 
