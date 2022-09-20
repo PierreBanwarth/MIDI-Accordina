@@ -1,5 +1,5 @@
 # AccordinaMIDI
-# teensy accordina midi 
+
 ## Création d’un accordéon électronique.
 
 ## Introduction
@@ -11,7 +11,7 @@ Ayant étudié dans le domaine de l’informatique je profite de ma dernière an
 
 ## Le concertina
 
-![1](https://user-images.githubusercontent.com/7162775/191326556-f5f79142-1c78-4a50-a57f-302a2880c0e2.jpg)
+![1](https://user-images.githubusercontent.com/7162775/191326556-f5f79142-1c78-4a50-a57f-302a2880c0e2.jpg |  width=100)
 
 Le concertina est un instrument de musique à vent et à anches libres, comme l’accordéon. Il à été inventé en 1829 par Sir Charles Wheatstone.
 Souvent associé aux clowns et aux pirates. Il est pratiqué principalement en musique irlandaise et en musique folk anglaise.
@@ -39,7 +39,7 @@ Maintenant que nous avons évoqué les matrices et que nous avons vu pourquoi no
 Ce point peut paraitre anecdotique mais il dictera plusieurs choix de conceptions plus tard.
 
 # Premier prototype V0.
-![IMG_20160530_072452](https://user-images.githubusercontent.com/7162775/191326176-e2973c29-57a8-48b5-a389-e7ffbf34c2ea.jpg)
+![IMG_20160530_072452](https://user-images.githubusercontent.com/7162775/191326176-e2973c29-57a8-48b5-a389-e7ffbf34c2ea.jpg |  width=100)
 
 Rapidement il m’est venu à l’idée de fabriquer deux claviers de 15 touches correspondant a chacun des côtés de l’instrument. Les Arduino classiques ont en général plus de 15 entrées (mais pas beaucoup plus)
 
@@ -96,8 +96,8 @@ Pour revenir à nos claviers j’ai découvert assez rapidement les switch Cherr
 Ces switch ont de nombreux avantages en plus d’être qualitatifs, il en existe de nombreuses versions correspondant à tous les types de frappes. Mais par-dessus tout il possède une communauté immense de passionnés. Il existe de nombreuses ressources en ligne pour créer sa propre disposition de touche, des tutoriaux pour créer des circuits imprimés de clavier etc...
 
 # Prototype V1 
-![IMG_20160612_162449](https://user-images.githubusercontent.com/7162775/191326235-0a6767f2-51fe-467a-820e-90c038d8644c.jpg)
-![IMG_20160712_145234](https://user-images.githubusercontent.com/7162775/191326318-fad7a10e-a8c3-42e2-91ae-e60414544b5b.jpg)
+![IMG_20160612_162449](https://user-images.githubusercontent.com/7162775/191326235-0a6767f2-51fe-467a-820e-90c038d8644c.jpg |  width=100)
+![IMG_20160712_145234](https://user-images.githubusercontent.com/7162775/191326318-fad7a10e-a8c3-42e2-91ae-e60414544b5b.jpg |  width=100)
 
  J’ai donc créé une nouvelle version avec des switch mécanique (en gardant la structure de V0). Grace a ce site http://www.keyboard-layout-editor.com/#/ j’ai pu créer la disposition de clavier voulu. Un ami m’a gentiment découpé des plaques en inox de la bonne épaisseur et le tour était joué. Enfin pas exactement, un collègue électronicien a fait les circuits tandis qu’un autre collègue imprimais les boutons orange qu’on voit sur la photo.
 
@@ -112,8 +112,8 @@ Ces switch ont de nombreux avantages en plus d’être qualitatifs, il en existe
 
 # Prototype V2
 
-![DSC_0839](https://user-images.githubusercontent.com/7162775/191325755-bde881e0-9758-4600-a013-dbf99e0f6cee.JPG)
-![IMG_20190110_194228031](https://user-images.githubusercontent.com/7162775/191325871-94bc2cf5-047f-44cb-ab51-c4f78cc396f5.jpg)
+![DSC_0839](https://user-images.githubusercontent.com/7162775/191325755-bde881e0-9758-4600-a013-dbf99e0f6cee.JPG |  width=100)
+![IMG_20190110_194228031](https://user-images.githubusercontent.com/7162775/191325871-94bc2cf5-047f-44cb-ab51-c4f78cc396f5.jpg |  width=100)
 
 
 En arrivant à Rennes en 2017, j’avais fait l’acquisition d’un nouveau concertina. 
@@ -153,7 +153,7 @@ Fort de toutes les erreurs des deux premiers modèles voici cependant le retour 
 
 # Prototype V3 : Arduino MEGA
 
-![accordina-LABOURDETTE-1](https://user-images.githubusercontent.com/7162775/191317407-98825e51-9206-4724-9a6d-7cb4a8463623.jpg)
+![accordina-LABOURDETTE-1](https://user-images.githubusercontent.com/7162775/191317407-98825e51-9206-4724-9a6d-7cb4a8463623.jpg |  width=100)
 
 Vu le retour d’expérience du Prototype V2. La solution envisagée à été de connecter tous les boutons du concertina sur le même Arduino. Les Arduino classiques n’ont pas plus de 20 entrées. J’ai donc opté pour un Arduino MEGA.
 Ensuite n’ayant pas d’option pour l’instant permettant de relier 15 cables entre les deux mains de l’instrument précèdent, j’ai opté pour une sorte d’accordina.
@@ -166,11 +166,11 @@ Le souffle sera simulé par un bouton de clavier mécanique placé sur le côté
 
 
 ## Synthèse sonore et Mozzi :
-![MelodicaMidi](https://user-images.githubusercontent.com/7162775/191325909-834b5312-a6d7-411f-a7e2-d3204c3f9bb8.JPG)
-![photoMidi](https://user-images.githubusercontent.com/7162775/191325943-2f39d959-f9ad-4015-856d-64fcb9e27225.jpg)
+![MelodicaMidi](https://user-images.githubusercontent.com/7162775/191325909-834b5312-a6d7-411f-a7e2-d3204c3f9bb8.JPG |  width=100)
+![photoMidi](https://user-images.githubusercontent.com/7162775/191325943-2f39d959-f9ad-4015-856d-64fcb9e27225.jpg |  width=100)
 
-![278510975_10222100827969495_4949327471096888762_n (1)](https://user-images.githubusercontent.com/7162775/191317473-b5d5cbe5-68b5-4e9c-a069-f2e92ddda12a.jpg)
-![concertinaMIDI2](https://user-images.githubusercontent.com/7162775/191317493-8f808993-de02-49d5-971b-ad84e6c936e7.jpg)
+![278510975_10222100827969495_4949327471096888762_n (1)](https://user-images.githubusercontent.com/7162775/191317473-b5d5cbe5-68b5-4e9c-a069-f2e92ddda12a.jpg |  width=100)
+![concertinaMIDI2](https://user-images.githubusercontent.com/7162775/191317493-8f808993-de02-49d5-971b-ad84e6c936e7.jpg |  width=100)
 
 C’est avant un long voyage en train que j’ai eu l’envie de m’occuper de la sortie audio. J’ai d’abord utilisé Tone la fonction dont a déjà parlé plus haut. Cependant en prenant le temps d’effectuer des recherches. J’ai découvert une librairie du nom de MOZZI qui permet de faire de la synthèse sonore bien plus intéressante que la synthèse de base pour Arduino.
 
