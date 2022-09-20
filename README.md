@@ -14,7 +14,9 @@ Concevoir un concertina électronique me permettant de jouer au casque et d’ex
 
 Le concertina est un instrument de musique à vent et à anches libres, comme l’accordéon. Il à été inventé en 1829 par Sir Charles Wheatstone.  
 Souvent associé aux clowns et aux pirates. Il est pratiqué principalement en musique irlandaise et en musique folk anglaise.  
-Cet instrument fonctionne comme un accordéon. Nous parlerons ici principalement du concertina dit « Anglo ». Sur cet instrument Les notes sont réparties des deux côtés de l’instrument. Notes graves à gauche et notes aiguës à droite.  
+Cet instrument fonctionne comme un accordéon. Nous parlerons ici principalement du concertina dit « Anglo ».  
+Sur cet instrument Les notes sont réparties des deux côtés de l’instrument.  
+Notes graves à gauche et notes aiguës à droite.  
 L’instrument est Bi-sonore : Appuyer ou tirer sur le soufflet ne produit généralement pas la même note  
 Voici un exemple d’un clavier classique a 30 touches.  
 
@@ -106,7 +108,9 @@ Il existe de nombreuses ressources en ligne pour créer sa propre disposition de
 <img src="https://user-images.githubusercontent.com/7162775/191326235-0a6767f2-51fe-467a-820e-90c038d8644c.jpg"  width="300">
 <img src="https://user-images.githubusercontent.com/7162775/191326318-fad7a10e-a8c3-42e2-91ae-e60414544b5b.jpg"  width="300">
 
- J’ai donc créé une nouvelle version avec des switch mécanique (en gardant la structure de V0). Grace a ce site http://www.keyboard-layout-editor.com/#/ j’ai pu créer la disposition de clavier voulu. Un ami m’a gentiment découpé des plaques en inox de la bonne épaisseur et le tour était joué. Enfin pas exactement, un collègue électronicien a fait les circuits tandis qu’un autre collègue imprimais les boutons orange qu’on voit sur la photo.  
+J’ai donc créé une nouvelle version avec des switch mécanique (en gardant la structure de V0). Grace a ce site http://www.keyboard-layout-editor.com/#/ j’ai pu créer la disposition de clavier voulu.  
+Un ami m’a gentiment découpé des plaques en inox de la bonne épaisseur et le tour était joué.  
+Enfin pas exactement, un collègue électronicien a fait les circuits tandis qu’un autre collègue imprimais les boutons orange qu’on voit sur la photo.  
 
 ## Retour d’expérience sur le deuxième prototype :
  - Les boutons sont un succès, bien mieux que les anciens.
@@ -135,11 +139,15 @@ Hormis ces quelques détails le code de l’instrument sera à peu près le mêm
 ## Réalisation :
 Cette version du concertina MIDI a demandé beaucoup de réflexions et l’intervention de nombreuses personnes (luthier pour les sangles et la soupape, imprimeur 3D).    Cette version m’a couté environ 300 euros contre environ 100 pour la version précédente.  
 Capteur de pression et gestion de l’air  
-La gestion de l’air est une question complexe au sein de l’instrument. La soupape permet de gérer la quantité d’air dans l’instrument.  
+La gestion de l’air est une question complexe au sein de l’instrument.  
+La soupape permet de gérer la quantité d’air dans l’instrument.  
 Cependant lorsqu’en jeu on appuie sur un ou deux voir trois boutons la consommation d’air n’est pas la même.  
-Or il n’y a aucune anche dans l’instrument imprimé en 3D. Le choix a été fait de laisser une certaine quantité d’air passer (un peu au jugé).  
+Or il n’y a aucune anche dans l’instrument imprimé en 3D.  
+Le choix a été fait de laisser une certaine quantité d’air passer (un peu au jugé).  
 ### Capteur de pression  
-Le capteur de pression fait très bien l’affaire il permet de retrouver une sensation de jeu via l’intensité d’appui. L’augmentation de la pression est exponentielle dans l’instrument. Il faut appliquer une fonction logarithmique aux valeurs obtenu pour faire varier la vélocité MIDI.  
+Le capteur de pression fait très bien l’affaire il permet de retrouver une sensation de jeu via l’intensité d’appui.  
+L’augmentation de la pression est exponentielle dans l’instrument.  
+Il faut appliquer une fonction logarithmique aux valeurs obtenu pour faire varier la vélocité MIDI.  
 
 Sur la version 0 et 1 de l’instrument le soufflet était un bouton partagé entre les deux instruments.  
 Or la ma principale erreur a été de mettre un capteur de pression dans chaque main de l’instrument.  
@@ -165,7 +173,8 @@ Cette fois l’objectif est de valider une version avec tout les boutons branch�
 
 Un circuit imprimé dédié a été réalisé et la conception et l’impression du corps de l’instrument en 3D à été réalisé par mes soins.  
 
-J’ai d’abord réutilisé mon code MIDI, cependant j’ai également mis une sortie audio (jack 3.5) et une sortie MIDI. Le but était d’ajouter un maximum d’entrée sortie pour explorer les possibilités de la chose.  
+J’ai d’abord réutilisé mon code MIDI, cependant j’ai également mis une sortie audio (jack 3.5) et une sortie MIDI.  
+Le but était d’ajouter un maximum d’entrée sortie pour explorer les possibilités de la chose.  
 Le souffle sera simulé par un bouton de clavier mécanique placé sur le côté de l’instrument.  
 
 
@@ -176,14 +185,20 @@ Le souffle sera simulé par un bouton de clavier mécanique placé sur le côté
 <img src="https://user-images.githubusercontent.com/7162775/191317493-8f808993-de02-49d5-971b-ad84e6c936e7.jpg"  width="300">
 
 
-C’est avant un long voyage en train que j’ai eu l’envie de m’occuper de la sortie audio. J’ai d’abord utilisé Tone la fonction dont a déjà parlé plus haut. Cependant en prenant le temps d’effectuer des recherches. J’ai découvert une librairie du nom de MOZZI qui permet de faire de la synthèse sonore bien plus intéressante que la synthèse de base pour Arduino.  
+C’est avant un long voyage en train que j’ai eu l’envie de m’occuper de la sortie audio.  
+J’ai d’abord utilisé Tone la fonction dont a déjà parlé plus haut.  
+Cependant en prenant le temps d’effectuer des recherches.  
+J’ai découvert une librairie du nom de MOZZI qui permet de faire de la synthèse sonore bien plus intéressante que la synthèse de base pour Arduino.  
 
 Mozzi permet de créer des enveloppes, d’additionner des sinusoïdes, de gérer l’attack, decay, release etc…  
-Le temps d’expérimenter les différentes options j’ai d’abord implémenté une version uni-sonore et ensuite avec deux voies (une pour les bourdons et une pour la mélodie). J’ai ensuite essayé d’ajouter plusieurs voies pour rendre l’instrument 100% polyphonique. Cependant l’Arduino est trop lent pour pouvoir gérer les calculs nécessaires.
+Le temps d’expérimenter les différentes options j’ai d’abord implémenté une version uni-sonore et ensuite avec deux voies (une pour les bourdons et une pour la mélodie). J’ai ensuite essayé d’ajouter plusieurs voies pour rendre l’instrument 100% polyphonique.  
+Cependant l’Arduino est trop lent pour pouvoir gérer les calculs nécessaires.
 
 ## Nouveau Hardware… :
-J’ai également en complément ajouté à la conception un écran oled et un encoder. A la base pour permettre le debug et connaitre l’état du système.
-En complément de Mozzi cet ajout s’est avéré précieux. En effet j’ai réalisé un système de Menu permettant de modifier les caractéristiques des différentes ondes présentes dans le son.  
+J’ai également en complément ajouté à la conception un écran oled et un encoder.  
+A la base pour permettre le debug et connaitre l’état du système.
+En complément de Mozzi cet ajout s’est avéré précieux.  
+En effet j’ai réalisé un système de Menu permettant de modifier les caractéristiques des différentes ondes présentes dans le son.  
 Finalement le son généré par l’Arduino est composé de :
 - 2 Oscillateurs pour le thème
 - 2 Oscillateurs pour les bourdons
@@ -191,7 +206,7 @@ Pour chaque oscillateur on peut choisir son octave et d’autres paramètres.
 La librairie MOZZI demande quelques circuits en plus afin de fonctionner à son plein potentiel j’ai donc réalisé les circuits de sorties avec un ami électronicien.  
 
 ## Nouveau problème… :
-	L’encoder et l’écran semblent faire des interférences avec la génération d’ondes MOZZI.
+L’encoder et l’écran semblent faire des interférences avec la génération d’ondes MOZZI.
 Il semble que ce souci vienne des interruptions I2C (le bus I2C est un connecteur du Controller qui permet de gérer certaines entrées/sorties comme l’écran).  
 Retour d’expérience sur le deuxième prototype :
  - Toujours fan des switches de clavier mécanique.
@@ -217,8 +232,10 @@ De l’idée à l’objet en lui-même le chemin est long et sinueux. Avant de t
 	L’idée de commercialiser le produit est présente depuis un petit moment. A voir s’il est possible de faire une utilisation commerciale des différentes librairies utilisées.  
 Cependant la question se pose de quoi commercialiser. Pas un Concertina MIDI parce que le cœur de cible est bien trop petit pour dégager une activité rentable.
 
-Pour l’instant il me semble qu’une version de l’Accordina MIDI qui permettrait de s’adapter à tous les claviers d’accordéons (Chromatique, Diatonique, Concertina) me semblerait plausible. Il faudrait sans doute réaliser d’abord les choses suivantes :  
- - Tester le multiplexage pour avoir une cinquantaine de touches au lieu de 30. Sur cette affaire j’ai entendu parler des mutliplexeur (qui utilisent des entrées binaires 0/1) ou des extendeurs d’IO i2C qui utilisent les entrées I2C.
+Pour l’instant il me semble qu’une version de l’Accordina MIDI qui permettrait de s’adapter à tous les claviers d’accordéons (Chromatique, Diatonique, Concertina) me semblerait plausible.  
+Il faudrait sans doute réaliser d’abord les choses suivantes :  
+ - Tester le multiplexage pour avoir une cinquantaine de touches au lieu de 30.  
+ Sur cette affaire j’ai entendu parler des mutliplexeur (qui utilisent des entrées binaires 0/1) ou des extendeurs d’IO i2C qui utilisent les entrées I2C.
  - Tester les DAC externes (des modules améliorant le son des différentes contrôleurs)
  - Tester les étages de sorties que Tony Jego à réalisé afin de l’intégrer a un futur circuit.
  - Embarquer tout ça sur une carte PCB unique.
