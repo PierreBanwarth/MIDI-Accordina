@@ -140,6 +140,8 @@ Fort de toutes les erreurs des deux premiers modèles voici cependant le retour 
 
 # Prototype V3 : Arduino MEGA
 
+![accordina-LABOURDETTE-1](https://user-images.githubusercontent.com/7162775/191317407-98825e51-9206-4724-9a6d-7cb4a8463623.jpg)
+
 Vu le retour d’expérience du Prototype V2. La solution envisagée à été de connecter tous les boutons du concertina sur le même Arduino. Les Arduino classiques n’ont pas plus de 20 entrées. J’ai donc opté pour un Arduino MEGA.
 Ensuite n’ayant pas d’option pour l’instant permettant de relier 15 cables entre les deux mains de l’instrument précèdent, j’ai opté pour une sorte d’accordina.
 Cette fois l’objectif est de valider une version avec tout les boutons branchés sur le même Arduino.
@@ -148,7 +150,11 @@ Un circuit imprimé dédié a été réalisé et la conception et l’impression
 
 J’ai d’abord réutilisé mon code MIDI, cependant j’ai également mis une sortie audio (jack 3.5) et une sortie MIDI. Le but était d’ajouter un maximum d’entrée sortie pour explorer les possibilités de la chose.
 Le souffle sera simulé par un bouton de clavier mécanique placé sur le côté de l’instrument.
+
+
 ## Synthèse sonore et Mozzi :
+![278510975_10222100827969495_4949327471096888762_n (1)](https://user-images.githubusercontent.com/7162775/191317473-b5d5cbe5-68b5-4e9c-a069-f2e92ddda12a.jpg)
+![concertinaMIDI2](https://user-images.githubusercontent.com/7162775/191317493-8f808993-de02-49d5-971b-ad84e6c936e7.jpg)
 
 C’est avant un long voyage en train que j’ai eu l’envie de m’occuper de la sortie audio. J’ai d’abord utilisé Tone la fonction dont a déjà parlé plus haut. Cependant en prenant le temps d’effectuer des recherches. J’ai découvert une librairie du nom de MOZZI qui permet de faire de la synthèse sonore bien plus intéressante que la synthèse de base pour Arduino.
 
