@@ -1,3 +1,4 @@
+![Sans titre](https://user-images.githubusercontent.com/7162775/191378614-7bc1c7c1-4d98-4ba1-96f5-f6df584b8950.png)
 # AccordinaMIDI
 
 ## Création d’un accordéon électronique.
