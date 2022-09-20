@@ -54,8 +54,8 @@ Bien que contre intuitive dans un premier temps cette méthode permet de simuler
 Encore un peu d’électronique et d’informatique.
 
 Maintenant que nous avons notre clavier et notre mécanique de soufflet deux problèmes se posent.
-⦁	Comment mutualiser le soufflet pour les deux mains ?
-⦁	Comment sortir du son ?
+ - Comment mutualiser le soufflet pour les deux mains ?
+ - Comment sortir du son ?
 La première est plutôt vite vue : on branche un seul bouton aux deux Arduino. Cependant ce n’est pas sans conséquences on aura forcément un fil entre les deux boitiers. Et nous verrons que le même problème se reposera plus loin.
 
 # Le son !
@@ -81,9 +81,9 @@ Tone(pinSortie, fréquence, durée);
 Cependant le rendu sonore de la librairie Tone n’était convaincant et cette solution a été abandonné au profit du MIDI (du moins jusqu’à la version 3 ou 4 de l’instrument)
 
 Retour d’expérience sur le premier prototype :
-⦁	Les boutons achetés dans ma boutique du coin sont nuls, réagissent mal quand ils le font.
-⦁	On valide le bouton pour le pousser dans un premier temps.
-⦁	Le MIDI fonctionne bien et permet de débugger grâce à Hairless MIDI serial.
+ - Les boutons achetés dans ma boutique du coin sont nuls, réagissent mal quand ils le font.
+ - On valide le bouton pour le pousser dans un premier temps.
+ - Le MIDI fonctionne bien et permet de débugger grâce à Hairless MIDI serial.
 Les boutons sont le principal problème après quelque recherche je pense avoir trouvé la solution idéale.
 
 # Clavier mécanique
@@ -122,10 +122,10 @@ J’ai également découvert l’impression et la modélisation 3D. J’ai vite 
 En découvrant les touches de clavier mécanique je suis tombé sur des tutoriaux permettant de réaliser soit même un circuit imprimé de clavier mécanique avec KiCad. Cette solution permet d’avoir beaucoup moins de soudure s, de câblage et rend le montage bien plus simple et la structure plus solide. https://github.com/ruiqimao/keyboard-pcb-guide
 
 Dans ce contexte j’ai décidé de réaliser une nouvelle version utilisant le soufflet de mon ancien concertina. Ne me reste plus qu’a ;
-⦁	Modéliser en 3D les deux mains de l’instrument
-⦁	Réaliser un circuit imprimé pour chacune des mains
-⦁	Intégrer un capteur de pression dans chaque main de l’instrument.
-⦁	Faire ajouter par un luthier une gestion de l’air via une soupape (présente sur les vrai concertina) la soupape permet de gérer l’air dans l’instrument quand il y’en a trop ou pas assez.
+ - Modéliser en 3D les deux mains de l’instrument
+ - Réaliser un circuit imprimé pour chacune des mains
+ - Intégrer un capteur de pression dans chaque main de l’instrument.
+ - Faire ajouter par un luthier une gestion de l’air via une soupape (présente sur les vrai concertina) la soupape permet de gérer l’air dans l’instrument quand il y’en a trop ou pas assez.
 Hormis ces quelques détails le code de l’instrument sera à peu près le même.
 
 ## Réalisation :
@@ -145,11 +145,11 @@ Alors qu’un capteur pense que l’on pousse l’autre pense que l’on tire. C
 Fort de toutes les erreurs des deux premiers modèles voici cependant le retour d’expérience  
 
 ## Retour d’expérience sur le troisième prototype :
-⦁	Soucis de capteur de pression : comme vu plus haut les deux capteurs se désynchronise ce qui empêche de jouer correctement.
-⦁	Le trou au jugé est trop grand et un travail sur l’étanchéité est nécessaire.
-⦁	On doit avoir un seul Arduino (ou autre controlleur) qui gère tout l’instrument
-⦁	Reste le souci du cablage.
-⦁	Autant d’impression 3D, j’ai décidé d’acheter la mienne pour pouvoir progresser sur la modélisation et faire plusieurs prototypes plutôt que de faire imprimer une seule version définitive.
+ - Soucis de capteur de pression : comme vu plus haut les deux capteurs se désynchronise ce qui empêche de jouer correctement.
+ - Le trou au jugé est trop grand et un travail sur l’étanchéité est nécessaire.
+ - On doit avoir un seul Arduino (ou autre controlleur) qui gère tout l’instrument
+ - Reste le souci du cablage.
+ - Autant d’impression 3D, j’ai décidé d’acheter la mienne pour pouvoir progresser sur la modélisation et faire plusieurs prototypes plutôt que de faire imprimer une seule version définitive.
 
 # Prototype V3 : Arduino MEGA
 
@@ -190,19 +190,19 @@ La librairie MOZZI demande quelques circuits en plus afin de fonctionner à son 
 	L’encoder et l’écran semblent faire des interférences avec la génération d’ondes MOZZI.
 Il semble que ce souci vienne des interruptions I2C (le bus I2C est un connecteur du Controller qui permet de gérer certaines entrées/sorties comme l’écran).
 Retour d’expérience sur le deuxième prototype :
-⦁	Toujours fan des switches de clavier mécanique.
-⦁	Découverte d’une nouvelle façon de générer du son
-⦁	Encoder + écran = beaucoup d’options, de debug et clairement de classe.
-⦁	Mozzy => l’arduino MEGA pas assez rapide.
+ - Toujours fan des switches de clavier mécanique.
+ - Découverte d’une nouvelle façon de générer du son
+ - Encoder + écran = beaucoup d’options, de debug et clairement de classe.
+ - Mozzy => l’arduino MEGA pas assez rapide.
 
 # Prototype 4 Teensy 4.1 :
 Toujours éloigné de la forme même du concertina j’ai décidé de pousser plus loin l’accordina MIDI. En effet agréable à jouer tant au bureau avec Abletone qu’en itinérance au casque. J’étais plutôt satisfait du prototype précédent. Cependant je restais curieux du Teensy qui a la réputation d’aller plus vite et d’être fait pour ça.
 J’ai également été retenu pour un salon : Maker Music Festival à Rennes le 24 et 25 septembre 2022, j’ai donc décidé de réaliser une nouvelle version de l’accordina embarquant un Teensy pour le présenter à l’évènement.
 Pour l’instant c’est plutôt un succès pour plusieurs raisons :
-⦁	Par rapport à l’Arduino le Teensy peut être reconnu directement comme un instrument MIDI supprimant la couche logiciel vu plus haut (Hairless MIDI Serial et loopmidi usb)
-⦁	La librairie MOZZI semble fonctionner (même si la version 3.6 semble plus adaptée pour la musique)
-⦁	Le teensy 4.1 à beaucoup d’entrées sorties ce qui permet d’avoir les 36 touches plus l’ecran le clavier, la sortie son.
-⦁	La gestion de nombreuses enveloppes semble fonctionner
+ - Par rapport à l’Arduino le Teensy peut être reconnu directement comme un instrument MIDI supprimant la couche logiciel vu plus haut (Hairless MIDI Serial et loopmidi usb)
+ - La librairie MOZZI semble fonctionner (même si la version 3.6 semble plus adaptée pour la musique)
+ - Le teensy 4.1 à beaucoup d’entrées sorties ce qui permet d’avoir les 36 touches plus l’ecran le clavier, la sortie son.
+ - La gestion de nombreuses enveloppes semble fonctionner
 Cette version est la dernière en date elle est encore en cours de développement/test.
 
 # Réflexions sur le futur et conclusion
@@ -219,9 +219,9 @@ Embarquer tout ça sur une carte PCB unique.
 Modéliser un Boitier méga classe et un peu lourd mais fin de tout le matos intégrant la carte, les boutons de clavier mécanique etc..
 Calculer un prix de vente, vendre peut-être uniquement les pièces séparés ?
 Cependant je pourrais me réaliser un concertina MIDI des que j’aurais répondu a toutes ces questions plus celles-là :
-⦁	Comment gérer rigoureusement l’étanchéité
-⦁	La soupape
-⦁	Un long câble qui traverserait le soufflet contenant une vingtaine D’IO.
+ - Comment gérer rigoureusement l’étanchéité
+ - La soupape
+ - Un long câble qui traverserait le soufflet contenant une vingtaine D’IO.
 
 Hors des considérations commerciales sur cet objet, l’objectif à terme est surtout de se former pour pouvoir jouer de ces instruments sur scène (formation synth + Abletone)
 Et malgré les difficultés rencontrées le plus passionnant dans ce projet c’est d’apprendre et d’approfondir les notions une par une pour créer un objet final qui puisse être utilisé
