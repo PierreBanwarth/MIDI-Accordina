@@ -59,8 +59,10 @@ Maintenant que nous avons notre clavier et notre mécanique de soufflet deux pro
 La première est plutôt vite vue : on branche un seul bouton aux deux Arduino. Cependant ce n’est pas sans conséquences on aura forcément un fil entre les deux boitiers. Et nous verrons que le même problème se reposera plus loin.
 
 # Le son !
-	Toute une affaire. Deux options s’offrent à chaque bidouilleur débutant qui souhaite faire de la musique avec un Arduino ou tout autre projet d’électronique.
+
+Toute une affaire. Deux options s’offrent à chaque bidouilleur débutant qui souhaite faire de la musique avec un Arduino ou tout autre projet d’électronique.
 On peut faire de la synthèse sonore ou utiliser le protocole MIDI.
+
 ## Le MIDI :
 Musical Instrument Digital Interface est un protocole permettant à n’importe quel objet l’implémentant de communiquer avec un logiciel de Musique assistée par ordinateur. C’est un exemple un peu restrictif du protocole mais c’est celui que nous explorerons
 Chaque note d’un clavier de piano à un numéro attribué. On peut envoyer des messages comme noteOn(x), noteOff(x)
