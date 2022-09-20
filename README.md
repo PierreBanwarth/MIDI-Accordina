@@ -4,10 +4,15 @@
 
 ## Introduction
 
+img[alt=drawing] { width: 200px; }
+
 Musicien pratiquant les musiques traditionnelles du centre France et d’Irlande, Je pratique le concertina depuis dix ans dans diverses formations ; Esling, Berny Trad School, Full4.
 Ayant étudié dans le domaine de l’informatique je profite de ma dernière année d’étude pour jeter les bases d’un nouveau projet. Concevoir un concertina électronique me permettant de jouer au casque et d’explorer de nouvelles sonorités. 
 
 ## Le concertina
+
+![1](https://user-images.githubusercontent.com/7162775/191326556-f5f79142-1c78-4a50-a57f-302a2880c0e2.jpg)
+
 Le concertina est un instrument de musique à vent et à anches libres, comme l’accordéon. Il à été inventé en 1829 par Sir Charles Wheatstone.
 Souvent associé aux clowns et aux pirates. Il est pratiqué principalement en musique irlandaise et en musique folk anglaise.
 Cet instrument fonctionne comme un accordéon. Nous parlerons ici principalement du concertina dit « Anglo ». Sur cet instrument Les notes sont réparties des deux côtés de l’instrument. Notes graves à gauche et notes aiguës à droite. 
