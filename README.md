@@ -34,6 +34,7 @@ Maintenant que nous avons évoqué les matrices et que nous avons vu pourquoi no
 Ce point peut paraitre anecdotique mais il dictera plusieurs choix de conceptions plus tard.
 
 # Premier prototype V0.
+![IMG_20160530_072452](https://user-images.githubusercontent.com/7162775/191326176-e2973c29-57a8-48b5-a389-e7ffbf34c2ea.jpg)
 
 Rapidement il m’est venu à l’idée de fabriquer deux claviers de 15 touches correspondant a chacun des côtés de l’instrument. Les Arduino classiques ont en général plus de 15 entrées (mais pas beaucoup plus)
 
@@ -90,6 +91,8 @@ Pour revenir à nos claviers j’ai découvert assez rapidement les switch Cherr
 Ces switch ont de nombreux avantages en plus d’être qualitatifs, il en existe de nombreuses versions correspondant à tous les types de frappes. Mais par-dessus tout il possède une communauté immense de passionnés. Il existe de nombreuses ressources en ligne pour créer sa propre disposition de touche, des tutoriaux pour créer des circuits imprimés de clavier etc...
 
 # Prototype V1 
+![IMG_20160612_162449](https://user-images.githubusercontent.com/7162775/191326235-0a6767f2-51fe-467a-820e-90c038d8644c.jpg)
+![IMG_20160712_145234](https://user-images.githubusercontent.com/7162775/191326318-fad7a10e-a8c3-42e2-91ae-e60414544b5b.jpg)
 
  J’ai donc créé une nouvelle version avec des switch mécanique (en gardant la structure de V0). Grace a ce site http://www.keyboard-layout-editor.com/#/ j’ai pu créer la disposition de clavier voulu. Un ami m’a gentiment découpé des plaques en inox de la bonne épaisseur et le tour était joué. Enfin pas exactement, un collègue électronicien a fait les circuits tandis qu’un autre collègue imprimais les boutons orange qu’on voit sur la photo.
 
