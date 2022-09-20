@@ -6,7 +6,8 @@
 ## Introduction
 
 Musicien pratiquant les musiques traditionnelles du centre France et d’Irlande, Je pratique le concertina depuis dix ans dans diverses formations ; Esling, Berny Trad School, Full4.  
-Ayant étudié dans le domaine de l’informatique je profite de ma dernière année d’étude pour jeter les bases d’un nouveau projet. Concevoir un concertina électronique me permettant de jouer au casque et d’explorer de nouvelles sonorités.  
+Ayant étudié dans le domaine de l’informatique je profite de ma dernière année d’étude pour jeter les bases d’un nouveau projet.  
+Concevoir un concertina électronique me permettant de jouer au casque et d’explorer de nouvelles sonorités.  
 
 ## Le concertina
 <img src="https://user-images.githubusercontent.com/7162775/191326556-f5f79142-1c78-4a50-a57f-302a2880c0e2.jpg"  width="300">
@@ -14,7 +15,7 @@ Ayant étudié dans le domaine de l’informatique je profite de ma dernière an
 Le concertina est un instrument de musique à vent et à anches libres, comme l’accordéon. Il à été inventé en 1829 par Sir Charles Wheatstone.  
 Souvent associé aux clowns et aux pirates. Il est pratiqué principalement en musique irlandaise et en musique folk anglaise.  
 Cet instrument fonctionne comme un accordéon. Nous parlerons ici principalement du concertina dit « Anglo ». Sur cet instrument Les notes sont réparties des deux côtés de l’instrument. Notes graves à gauche et notes aiguës à droite.  
-L’instrument est Bi-sonore : Appuyer ou tirer sur le soufflet ne produit généralement pas la même note
+L’instrument est Bi-sonore : Appuyer ou tirer sur le soufflet ne produit généralement pas la même note  
 Voici un exemple d’un clavier classique a 30 touches.  
 
 ## A Propos des Arduino.
@@ -32,8 +33,9 @@ Cependant essayez d’appuyer sur AZERTY en même temps sur votre clavier.
 J’obtiens : Azerererererererererererererer
 
 
-Les matrices ne permettent donc pas de faire des accords a 3, 4 sons. L’objectif est de rendre l’instrument aussi proche d’un véritable concertina cette méthode n’est donc pas envisageable.  
-Maintenant que nous avons évoqué les matrices et que nous avons vu pourquoi nous ne pourrons pas nous en servir nous allons consacrer une entrée/sortie par bouton.
+Les matrices ne permettent donc pas de faire des accords a 3, 4 sons.  
+L’objectif est de rendre l’instrument aussi proche d’un véritable concertina cette méthode n’est donc pas envisageable.  
+Maintenant que nous avons évoqué les matrices et que nous avons vu pourquoi nous ne pourrons pas nous en servir nous allons consacrer une entrée/sortie par bouton.  
 Ce point peut paraitre anecdotique mais il dictera plusieurs choix de conceptions plus tard.  
 
 # Premier prototype V0.
@@ -90,12 +92,15 @@ Les boutons sont le principal problème après quelque recherche je pense avoir 
 # Clavier mécanique
 Depuis le début de mes recherches je compare ce que je fais à un clavier d’ordinateur.  
 Tant dans le fonctionnement que dans la disposition des touches il y a beaucoup de similitudes.  
-Je me souviens d’un projet réalisé par Emmanuel Delahaye un bricoleur d’accordéons en tout genre. Il avait fait une sorte d’accordéon avec deux claviers une glissière de tiroir et une souris.  
-Ce projet m’avait fasciné quand je l’avais découvert dans un magazine. C’est surement de la que me viens cette envie de créer ma propre version de l’accordéon MIDI.  
+Je me souviens d’un projet réalisé par Emmanuel Delahaye un bricoleur d’accordéons en tout genre.  
+Il avait fait une sorte d’accordéon avec deux claviers une glissière de tiroir et une souris.  
+Ce projet m’avait fasciné quand je l’avais découvert dans un magazine. C’est surement de la que me viens cette envie de créer ma propre version de l’accordéon MIDI.   
 
 Pour revenir à nos claviers j’ai découvert assez rapidement les switch Cherry MX. Présent dans la plupart des claviers mécanique de Gamer et de passionnées de clavier.  
 
-Ces switch ont de nombreux avantages en plus d’être qualitatifs, il en existe de nombreuses versions correspondant à tous les types de frappes. Mais par-dessus tout il possède une communauté immense de passionnés. Il existe de nombreuses ressources en ligne pour créer sa propre disposition de touche, des tutoriaux pour créer des circuits imprimés de clavier etc...  
+Ces switch ont de nombreux avantages en plus d’être qualitatifs, il en existe de nombreuses versions correspondant à tous les types de frappes.  
+Mais par-dessus tout il possède une communauté immense de passionnés.  
+Il existe de nombreuses ressources en ligne pour créer sa propre disposition de touche, des tutoriaux pour créer des circuits imprimés de clavier etc...  
 
 # Prototype V1
 <img src="https://user-images.githubusercontent.com/7162775/191326235-0a6767f2-51fe-467a-820e-90c038d8644c.jpg"  width="300">
@@ -195,7 +200,9 @@ Retour d’expérience sur le deuxième prototype :
  - Mozzy => l’arduino MEGA pas assez rapide.
 
 # Prototype 4 Teensy 4.1 :
-Toujours éloigné de la forme même du concertina j’ai décidé de pousser plus loin l’accordina MIDI. En effet agréable à jouer tant au bureau avec Abletone qu’en itinérance au casque. J’étais plutôt satisfait du prototype précédent. Cependant je restais curieux du Teensy qui a la réputation d’aller plus vite et d’être fait pour ça.  
+Toujours éloigné de la forme même du concertina j’ai décidé de pousser plus loin l’accordina MIDI.  
+En effet agréable à jouer tant au bureau avec Abletone qu’en itinérance au casque.  
+J’étais plutôt satisfait du prototype précédent. Cependant je restais curieux du Teensy qui a la réputation d’aller plus vite et d’être fait pour ça.  
 J’ai également été retenu pour un salon : Maker Music Festival à Rennes le 24 et 25 septembre 2022, j’ai donc décidé de réaliser une nouvelle version de l’accordina embarquant un Teensy pour le présenter à l’évènement.  
 Pour l’instant c’est plutôt un succès pour plusieurs raisons :
  - Par rapport à l’Arduino le Teensy peut être reconnu directement comme un instrument MIDI supprimant la couche logiciel vu plus haut (Hairless MIDI Serial et loopmidi usb)
@@ -225,7 +232,7 @@ Cependant je pourrais me réaliser un concertina MIDI des que j’aurais répond
 
 Hors des considérations commerciales sur cet objet, l’objectif à terme est surtout de se former pour pouvoir jouer de ces instruments sur scène (formation synth + Abletone)  
 Et malgré les difficultés rencontrées le plus passionnant dans ce projet c’est d’apprendre et d’approfondir les notions une par une pour créer un objet final qui puisse être utilisé  
- 
+
 
 Quelques remerciements pour leur aide direct ou leur soutien :  
 Camille MILLET, Tony JEGO, Yannick CHIRON, Nicolas HARRAND, Jean BANWARTH
