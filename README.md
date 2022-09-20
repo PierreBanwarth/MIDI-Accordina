@@ -4,8 +4,6 @@
 
 ## Introduction
 
-img[alt=drawing] { width: 200px; }
-
 Musicien pratiquant les musiques traditionnelles du centre France et d’Irlande, Je pratique le concertina depuis dix ans dans diverses formations ; Esling, Berny Trad School, Full4.
 Ayant étudié dans le domaine de l’informatique je profite de ma dernière année d’étude pour jeter les bases d’un nouveau projet. Concevoir un concertina électronique me permettant de jouer au casque et d’explorer de nouvelles sonorités.
 
