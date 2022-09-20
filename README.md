@@ -5,45 +5,45 @@
 
 ## Introduction
 
-Musicien pratiquant les musiques traditionnelles du centre France et d’Irlande, Je pratique le concertina depuis dix ans dans diverses formations ; Esling, Berny Trad School, Full4.
-Ayant étudié dans le domaine de l’informatique je profite de ma dernière année d’étude pour jeter les bases d’un nouveau projet. Concevoir un concertina électronique me permettant de jouer au casque et d’explorer de nouvelles sonorités.
+Musicien pratiquant les musiques traditionnelles du centre France et d’Irlande, Je pratique le concertina depuis dix ans dans diverses formations ; Esling, Berny Trad School, Full4.  
+Ayant étudié dans le domaine de l’informatique je profite de ma dernière année d’étude pour jeter les bases d’un nouveau projet. Concevoir un concertina électronique me permettant de jouer au casque et d’explorer de nouvelles sonorités.  
 
 ## Le concertina
 <img src="https://user-images.githubusercontent.com/7162775/191326556-f5f79142-1c78-4a50-a57f-302a2880c0e2.jpg"  width="300">
 
-Le concertina est un instrument de musique à vent et à anches libres, comme l’accordéon. Il à été inventé en 1829 par Sir Charles Wheatstone.
-Souvent associé aux clowns et aux pirates. Il est pratiqué principalement en musique irlandaise et en musique folk anglaise.
-Cet instrument fonctionne comme un accordéon. Nous parlerons ici principalement du concertina dit « Anglo ». Sur cet instrument Les notes sont réparties des deux côtés de l’instrument. Notes graves à gauche et notes aiguës à droite.
+Le concertina est un instrument de musique à vent et à anches libres, comme l’accordéon. Il à été inventé en 1829 par Sir Charles Wheatstone.  
+Souvent associé aux clowns et aux pirates. Il est pratiqué principalement en musique irlandaise et en musique folk anglaise.  
+Cet instrument fonctionne comme un accordéon. Nous parlerons ici principalement du concertina dit « Anglo ». Sur cet instrument Les notes sont réparties des deux côtés de l’instrument. Notes graves à gauche et notes aiguës à droite.  
 L’instrument est Bi-sonore : Appuyer ou tirer sur le soufflet ne produit généralement pas la même note
-Voici un exemple d’un clavier classique a 30 touches.
+Voici un exemple d’un clavier classique a 30 touches.  
 
 ## A Propos des Arduino.
-Les boutons : le principe du bouton en électronique est de laisser passer le courant lorsque la touche est appuyée.
-Pour lire un bouton avec un Arduino la première possibilité est de brancher une des bornes du bouton sur une Entrée de l’Arduino et l’autre à la masse.
-Une lecture de l’état de l’entrée et on consulte l’état du bouton.
+Les boutons : le principe du bouton en électronique est de laisser passer le courant lorsque la touche est appuyée.  
+Pour lire un bouton avec un Arduino la première possibilité est de brancher une des bornes du bouton sur une Entrée de l’Arduino et l’autre à la masse.  
+Une lecture de l’état de l’entrée et on consulte l’état du bouton.  
 
 ## Matrices de boutons
- Une technique communément utilisée notamment dans les claviers consiste à fabriquer une matrice.
-Cette technique permet avec 8 entrées (ligne 1 à 4 et colonne 1 à 4) d’utiliser 16 boutons.
-Si le courant passe entre ligne 1 et colonne 2 alors c’est le bouton 2 qui est appuyé.
-Cette technique nous permettrait d’utiliser peu d’entrée/sortie sur l’Arduino.
+ Une technique communément utilisée notamment dans les claviers consiste à fabriquer une matrice.  
+Cette technique permet avec 8 entrées (ligne 1 à 4 et colonne 1 à 4) d’utiliser 16 boutons.  
+Si le courant passe entre ligne 1 et colonne 2 alors c’est le bouton 2 qui est appuyé.  
+Cette technique nous permettrait d’utiliser peu d’entrée/sortie sur l’Arduino.  
 
-Cependant essayez d’appuyer sur AZERTY en même temps sur votre clavier.
+Cependant essayez d’appuyer sur AZERTY en même temps sur votre clavier.  
 J’obtiens : Azerererererererererererererer
 
 
-Les matrices ne permettent donc pas de faire des accords a 3, 4 sons. L’objectif est de rendre l’instrument aussi proche d’un véritable concertina cette méthode n’est donc pas envisageable.
+Les matrices ne permettent donc pas de faire des accords a 3, 4 sons. L’objectif est de rendre l’instrument aussi proche d’un véritable concertina cette méthode n’est donc pas envisageable.  
 Maintenant que nous avons évoqué les matrices et que nous avons vu pourquoi nous ne pourrons pas nous en servir nous allons consacrer une entrée/sortie par bouton.
-Ce point peut paraitre anecdotique mais il dictera plusieurs choix de conceptions plus tard.
+Ce point peut paraitre anecdotique mais il dictera plusieurs choix de conceptions plus tard.  
 
 # Premier prototype V0.
 <img src="https://user-images.githubusercontent.com/7162775/191326176-e2973c29-57a8-48b5-a389-e7ffbf34c2ea.jpg"  width="300">
 
 
-Rapidement il m’est venu à l’idée de fabriquer deux claviers de 15 touches correspondant a chacun des côtés de l’instrument. Les Arduino classiques ont en général plus de 15 entrées (mais pas beaucoup plus)
+Rapidement il m’est venu à l’idée de fabriquer deux claviers de 15 touches correspondant a chacun des côtés de l’instrument. Les Arduino classiques ont en général plus de 15 entrées (mais pas beaucoup plus)  
 
-Ce premier projet exploratoire à été réalisé avec des boutons trouvés dans un magasin d’électronique.
-Un Arduino est placé dans chaque boitier. Le code a l’intérieur est globalement le même. Seul le tableau contenant les notes jouer va changer de l’un a l’autre.
+Ce premier projet exploratoire à été réalisé avec des boutons trouvés dans un magasin d’électronique.  
+Un Arduino est placé dans chaque boitier. Le code a l’intérieur est globalement le même. Seul le tableau contenant les notes jouer va changer de l’un a l’autre.  
 
 ## Gestion du soufflet :
 Le soufflet n’est pas présent sur cet instrument la question est donc comment rendre le pousser/tirer fondement du son de l’instrument et de ces mécaniques de jeu ?
