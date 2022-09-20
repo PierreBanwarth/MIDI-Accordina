@@ -18,7 +18,7 @@ Cet instrument fonctionne comme un accordéon. Nous parlerons ici principalement
 Sur cet instrument Les notes sont réparties des deux côtés de l’instrument.  
 Notes graves à gauche et notes aiguës à droite.  
 L’instrument est Bi-sonore : Appuyer ou tirer sur le soufflet ne produit généralement pas la même note  
-Voici un exemple d’un clavier classique a 30 touches.  
+### Voici un exemple d’un clavier classique a 30 touches.  
 ![roger](https://user-images.githubusercontent.com/7162775/191334001-0b94aa86-d06e-4353-844c-a5fe0d44236d.jpg)
 
 ## A Propos des Arduino.
