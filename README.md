@@ -56,8 +56,9 @@ this project work with :
 
 TODO : Translate all code in english and cleanup var names
 
-## MOZZI where the magic happen
+## [MOZZI](https://sensorium.github.io/Mozzi/) where the magic happen
 
+I will not explain all mozzi stuff that you can find here https://sensorium.github.io/Mozzi/  
 MOZZI is working with tabs of oscillators value
 there is two functions  
  - UpdateAudio who manage sound output
@@ -107,6 +108,12 @@ void updateControl();
 ```
 all that stuff is launched by audioHook(); in the main loop
 
+## MIDI another kind of magic
+
+MIDI functions are very easy to understand.  
+
+This version of Teensy is recognized by windows as a MIDI device !  
+
 
 
 ## functions that emulate expected behaviors:   
@@ -120,6 +127,8 @@ static void noteMidiBourdon(uint8_t index, Configuration conf, int velocity);
 static void noteMidi(uint8_t sens_soufflet, uint8_t index, Configuration conf, int velocity);
 static void noteMidiDrum(uint8_t index, int velocity);
 ```
+
+
 ## function to play notes 
 ```c++
 // Synth
@@ -173,13 +182,7 @@ static void setPresets(int i){
   bourdon1.setTable(getWaveFromInt(conf.getBrd1()));
   bourdon2.setTable(getWaveFromInt(conf.getBrd2()));
 }
-
-
 ```
-
-
-
-
 
 ## Concertina Library
 [Concertina library](https://github.com/PierreBanwarth/MIDI-Accordina/tree/main/include/concertina_lib) TODO rename the lib
