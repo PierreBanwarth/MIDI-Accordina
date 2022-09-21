@@ -2,7 +2,7 @@
 
 
 # AccordinaMIDI
-[Journal de developpement ici](https://github.com/PierreBanwarth/MIDI-Accordina/blob/main/journal.md)
+[Journal de developpement ici](https://github.com/PierreBanwarth/MIDI-Accordina/blob/main/journal.md)  
 [Dev Journal in french here](https://github.com/PierreBanwarth/MIDI-Accordina/blob/main/journal.md)
 
 # Presentation
@@ -12,9 +12,11 @@ This project is the last version (V5) of my Accordion Mechanical Keyboard
 Powered by a teensy 4.1.  
 
 We use MIDI protocol and [MOZZI library](https://sensorium.github.io/Mozzi/learn/output/)  
+  
 Most of the code is a reuse of my [previous version of Accordion Mechanical Keyboard](https://github.com/PierreBanwarth/MIDI-Melodica)  
 
 This version is very faster than the previous one thanks to the teensy.  
+  
 I have tested it with 5 envelopes at the same time (work only with three with the arduino MEGA)  
 
 # Goal
@@ -50,20 +52,18 @@ this project work with :
 
 
 
-## Main.cpp
-[Main](https://github.com/PierreBanwarth/MIDI-Accordina/blob/main/src/main.cpp)  
+## [Main.cpp](https://github.com/PierreBanwarth/MIDI-Accordina/blob/main/src/main.cpp)  
+
 TODO : Translate all code in english and cleanup var names
 
-### functions
+## MOZZI where the magic happen
 
-#### where the magic happen
-#### MOZZI 
 MOZZI is working with tabs of oscillators value
 there is two functions  
  - UpdateAudio who manage sound output
  - UpdateControl who manage control of the sound
- - 
-##### Setup
+
+### Setup
 ```c++
 #define POLYPHONY 4 // Number of sound that can be played at the same time (theme)
 
@@ -80,7 +80,7 @@ Oscil <COS2048_NUM_CELLS, AUDIO_RATE> bourdon2(COS2048_DATA);
 int notesPlaying[POLYPHONY]; // Tab to count how many notes are playing simultaneously
 ```
 
-##### Update audio
+### Update audio
 Some magical byte shifting (MOZZI documentation is not clear about that but this look working)
 ```c++
 int updateAudio(){
@@ -100,17 +100,16 @@ int updateAudio(){
 }
 ```
 
-##### Update control
+### Update control
 Used to manage envelope noteOn noteOff things.
 ```
 void updateControl();
 ```
-
-##### Update control
 all that stuff is launched by audioHook(); in the main loop
 
 
-#### functions that emulate expected behaviors:   
+
+## functions that emulate expected behaviors:   
 
 ```c++
 // Synth
@@ -121,7 +120,7 @@ static void noteMidiBourdon(uint8_t index, Configuration conf, int velocity);
 static void noteMidi(uint8_t sens_soufflet, uint8_t index, Configuration conf, int velocity);
 static void noteMidiDrum(uint8_t index, int velocity);
 ```
-#### function to play notes 
+## function to play notes 
 ```c++
 // Synth
 static void noteOnSynth(int frequence, Configuration conf);
@@ -131,7 +130,7 @@ static void noteOnBourdonSynth(int frequence, Configuration conf);
 static void noteOn(int noteToPlay, Configuration conf, int velocity, int index);
 static void noteOff(int noteToShutdown, Configuration conf);
 ```
-#### Display and Menu management
+## Display and Menu management
 ```c++
 Display display = Display(I2C_ADDRESS); // Instanciate a Display object, used to display everything
 
@@ -156,7 +155,7 @@ static void menuSelector(Display d){
 static int menuSelectorSwitch(int newPos, int menuActiveItem); // Automata that manage menuing
 ```
 
-#### Presets 
+## Presets 
 
 ```c++
 Configuration conf = newPresets[0];
