@@ -7,28 +7,28 @@
 
 # Presentation
 
-This project is the last version (V5) of my Accordion Mechanical Keyboard 
+This project is the last version (V5) of my Accordion Mechanical Keyboard  
 
 Powered by a teensy 4.1.  
 
-We use MIDI protocol and [MOZZI library](https://sensorium.github.io/Mozzi/learn/output/)
-Most of the code is a reuse of my [previous version of Accordion Mechanical Keyboard](https://github.com/PierreBanwarth/MIDI-Melodica)
+We use MIDI protocol and [MOZZI library](https://sensorium.github.io/Mozzi/learn/output/)  
+Most of the code is a reuse of my [previous version of Accordion Mechanical Keyboard](https://github.com/PierreBanwarth/MIDI-Melodica)  
 
 This version is very faster than the previous one thanks to the teensy.  
 I have tested it with 5 envelopes at the same time (work only with three with the arduino MEGA)  
 
 # Goal
 
-This project is a mechanical keyboard simulating a concertina keyboard.  
+This project is a mechanical keyboard simulating a concertina keyboard.    
 Working both as a Synth and in MIDI.  
 Polyphonic (5 sound at a time now)  
 
 # Electronic  
-
-this project work with
- - 37 mechanical keyboards switches (36 on the keyboard and one for the push/pull) TODO : Post a tutorial to make your own PCB
- - 1 128*64 Oled screen 
- - 1 Encoder 
+TODO : Post a tutorial to make your own PCB  
+this project work with :  
+ - 37 mechanical keyboards switchs (36 on the keyboard and one for the push/pull) 
+ - 128*64 Oled screen 
+ - Encoder 
  - jack 3.5 input
  - micro usb input
 
@@ -49,37 +49,44 @@ this project work with
 
 
 ## Main.cpp
-[Main](https://github.com/PierreBanwarth/MIDI-Accordina/blob/main/src/main.cpp)
+[Main](https://github.com/PierreBanwarth/MIDI-Accordina/blob/main/src/main.cpp)  
 TODO : Translate all code in english and cleanup var names
 
 ### functions
 #### functions that emulate expected behaviors:   
+
 ```c++
 // Synth
-static int noteSynthBourdon(uint8_t sens_soufflet, uint8_t index, Configuration conf)
-static int noteSynth(uint8_t sens_soufflet, uint8_t index, Configuration conf)
+static int noteSynthBourdon(uint8_t sens_soufflet, uint8_t index, Configuration conf);
+static int noteSynth(uint8_t sens_soufflet, uint8_t index, Configuration conf);
 // MIDI
-static void noteMidiBourdon(uint8_t index, Configuration conf, int velocity)
-static void noteMidi(uint8_t sens_soufflet, uint8_t index, Configuration conf, int velocity)
-static void noteMidiDrum(uint8_t index, int velocity)
+static void noteMidiBourdon(uint8_t index, Configuration conf, int velocity);
+static void noteMidi(uint8_t sens_soufflet, uint8_t index, Configuration conf, int velocity);
+static void noteMidiDrum(uint8_t index, int velocity);
 ```
 #### function to play notes 
 ```c++
 // Synth
-static void noteOnSynth(int frequence, Configuration conf)
-static void noteOffSynth(int frequence)
-static void noteOnBourdonSynth(int frequence, Configuration conf)
+static void noteOnSynth(int frequence, Configuration conf);
+static void noteOffSynth(int frequence);
+static void noteOnBourdonSynth(int frequence, Configuration conf);
 // MIDI
-static void noteOn(int noteToPlay, Configuration conf, int velocity, int index)
-static void noteOff(int noteToShutdown, Configuration conf)
+static void noteOn(int noteToPlay, Configuration conf, int velocity, int index);
+static void noteOff(int noteToShutdown, Configuration conf);
 ```
 #### Menu management
 
 #### function to play notes
 ```c++
-static void menuSelector(Display d)
-static int menuSelectorSwitch(int newPos, int menuActiveItem)
+static void menuSelector(Display d);
+static int menuSelectorSwitch(int newPos, int menuActiveItem);
 ```
+
+
+
+
+
+
 
 ## Concertina Library
 [Concertina library](https://github.com/PierreBanwarth/MIDI-Accordina/tree/main/include/concertina_lib) TODO rename the lib
