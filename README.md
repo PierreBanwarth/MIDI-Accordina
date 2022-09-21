@@ -57,13 +57,13 @@ TODO : Translate all code in english and cleanup var names
 ### functions
 
 #### where the magic happen
-##### MOZZI 
+#### MOZZI 
 MOZZI is working with tabs of oscillators value
 there is two functions  
  - UpdateAudio who manage sound output
  - UpdateControl who manage control of the sound
  - 
-###### Setup
+##### Setup
 ```c++
 #define POLYPHONY 4 // Number of sound that can be played at the same time (theme)
 
@@ -80,7 +80,7 @@ Oscil <COS2048_NUM_CELLS, AUDIO_RATE> bourdon2(COS2048_DATA);
 int notesPlaying[POLYPHONY]; // Tab to count how many notes are playing simultaneously
 ```
 
-###### Update audio
+##### Update audio
 Some magical byte shifting (MOZZI documentation is not clear about that but this look working)
 ```c++
 int updateAudio(){
@@ -100,13 +100,13 @@ int updateAudio(){
 }
 ```
 
-###### Update control
+##### Update control
 Used to manage envelope noteOn noteOff things.
 ```
 void updateControl();
 ```
 
-###### Update control
+##### Update control
 all that stuff is launched by audioHook(); in the main loop
 
 
