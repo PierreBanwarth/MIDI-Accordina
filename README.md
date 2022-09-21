@@ -74,7 +74,7 @@ static void noteOnBourdonSynth(int frequence, Configuration conf);
 static void noteOn(int noteToPlay, Configuration conf, int velocity, int index);
 static void noteOff(int noteToShutdown, Configuration conf);
 ```
-#### Menu management
+#### Display and Menu management
 ```c++
 Display display = Display(I2C_ADDRESS); // Instanciate a Display object, used to display everything
 
@@ -99,7 +99,27 @@ static void menuSelector(Display d){
 static int menuSelectorSwitch(int newPos, int menuActiveItem); // Automata that manage menuing
 ```
 
+#### Presets 
 
+```c++
+Configuration conf = newPresets[0];
+// Configutation object are usefull to stock some informations and save and load presets
+// Configuration(Name octave, tone shift, octaveOsc2, octaveOsc3, octaveOsc4, waveFormOsc1 ,waveFormOsc2 ,waveFormOsc3 ,waveFormOsc4 , attackTheme, attackDrones)
+Configuration("Squ Tri",2,11, -1 ,-1 ,-2,-3 ,4,4,2,0 , 250, 250),
+
+static void setPresets(int i){
+  conf = newPresets[i]; // all data are stored in conf
+  for(byte z = 0; z < POLYPHONY; z++){ // Setting good wave table for all synth
+    oscil1[z].setTable(getWaveFromInt(conf.getOsc1()));
+    oscil2[z].setTable(getWaveFromInt(conf.getOsc2()));
+  }
+  // Setting good wave table for drones
+  bourdon1.setTable(getWaveFromInt(conf.getBrd1()));
+  bourdon2.setTable(getWaveFromInt(conf.getBrd2()));
+}
+
+
+```
 
 
 
