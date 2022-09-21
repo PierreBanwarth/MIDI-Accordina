@@ -53,6 +53,61 @@ this project work with :
 TODO : Translate all code in english and cleanup var names
 
 ### functions
+
+#### where the magic happen
+##### MOZZI 
+MOZZI is working with tabs of oscillators value
+there is two functions  
+ - UpdateAudio who manage sound output
+ - UpdateControl who manage control of the sound
+ - 
+###### Setup
+```c++
+#define POLYPHONY 4 // Number of sound that can be played at the same time (theme)
+
+// Array of ADSR envelopes matching with 2 array of oscilators
+ADSR <CONTROL_RATE, AUDIO_RATE> envelope[POLYPHONY]; 
+Oscil<COS2048_NUM_CELLS, AUDIO_RATE> oscil1[POLYPHONY] = Oscil<COS2048_NUM_CELLS, AUDIO_RATE> (COS2048_DATA);
+Oscil<COS2048_NUM_CELLS, AUDIO_RATE> oscil2[POLYPHONY] = Oscil<COS2048_NUM_CELLS, AUDIO_RATE> (COS2048_DATA);
+
+// One ADSR envelope matching 2 oscillators for drones  
+ADSR <CONTROL_RATE, AUDIO_RATE> envelopeBourdon; 
+Oscil <COS2048_NUM_CELLS, AUDIO_RATE> bourdon1(COS2048_DATA);
+Oscil <COS2048_NUM_CELLS, AUDIO_RATE> bourdon2(COS2048_DATA);
+
+int notesPlaying[POLYPHONY]; // Tab to count how many notes are playing simultaneously
+```
+
+###### Update audio
+Some magical byte shifting (MOZZI documentation is not clear about that but this look working)
+```c++
+int updateAudio(){
+  long note = 0;
+  for (byte i = 0; i < POLYPHONY; i++){
+    long newNote = 0;
+    // For each note we compute ( envelope x (oscil1 + oscil2))
+    newNote = (long)envelope[i].next() * (oscil1[i].next()+oscil2[i].next());
+    note = note + newNote;
+  }
+  // Magical byte shifting incoming !!!!
+  note = note >> (POLYPHONY+7);
+  return note;
+  // Soon had to add drones
+  // int16_t noteBourdon =  (int16_t)envelopeBourdon.next() * (bourdon1.next()+bourdon2.next()) >>8;
+  // return (note + noteBourdon)>>2;
+}
+```
+
+###### Update control
+Used to manage envelope noteOn noteOff things.
+```
+void updateControl();
+```
+
+###### Update control
+all that stuff is launched by audioHook(); in the main loop
+
+
 #### functions that emulate expected behaviors:   
 
 ```c++
