@@ -2,6 +2,7 @@
 
 
 # AccordinaMIDI
+[Journal de developpement ici](https://github.com/PierreBanwarth/MIDI-Accordina/blob/main/journal.md)
 
 ## Création d’un accordéon électronique.
 ![Capture](https://user-images.githubusercontent.com/7162775/191329382-e0548cfa-a1d9-4cb4-abda-4559c06e39f5.JPG)
