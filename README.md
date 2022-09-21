@@ -33,18 +33,20 @@ this project work with :
  - micro usb input
 
 # Code 
+
 ## Menu
 
 1. General
-    Octave (MIDI and Synth)
+    * Octave (MIDI and Synth)
 1. MIDI 
-    Classic midi keyboard + 6 drones
-    Drum midi keyboard
+    * Classic midi keyboard + 6 drones
+    * Drum midi keyboard
 2. Synth
-    Polyphonic keyboard + Envelope for drones (2 oscillators each)
-    Waveform for all oscillators
-    Octave for all oscillators
-    Attack for all oscillators
+    * Polyphonic keyboard + Envelope for drones (2 oscillators each)
+    * Waveform for all oscillators
+    * Waveform for all oscillators
+    * Octave for all oscillators
+    * Attack for all oscillators
 
 
 
