@@ -75,11 +75,28 @@ static void noteOn(int noteToPlay, Configuration conf, int velocity, int index);
 static void noteOff(int noteToShutdown, Configuration conf);
 ```
 #### Menu management
-
-#### function to play notes
 ```c++
-static void menuSelector(Display d);
-static int menuSelectorSwitch(int newPos, int menuActiveItem);
+Display display = Display(I2C_ADDRESS); // Instanciate a Display object, used to display everything
+
+display.maindisplay(0, mode, mode_midi, menuActiveItem, conf); // in setup to initialize display
+
+static void menuSelector(Display d){
+  encoder.tick();
+  int newPosition = abs(encoder.getPosition());
+  int state = digitalRead(buttonEncoder);
+  if (encoderPosition != newPosition)
+  {
+    d.maindisplay(newPosition, mode, mode_midi, menuActiveItem, conf);// Update display when encoder is rotating
+    encoderPosition = newPosition;
+  }
+  if(state == HIGH && state != stateButtonEncoder){
+    menuActiveItem = menuSelectorSwitch(newPosition, menuActiveItem);
+    d.maindisplay(newPosition, mode, mode_midi, menuActiveItem, conf);// Update display when encoder is clicked
+  }
+  stateButtonEncoder = state;
+}
+
+static int menuSelectorSwitch(int newPos, int menuActiveItem); // Automata that manage menuing
 ```
 
 
