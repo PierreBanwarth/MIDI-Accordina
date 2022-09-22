@@ -274,7 +274,7 @@ int pousser[] = {
   Cn2, Gn1, Dn2, Gs3, Bn3, En3, //17
   An3, Gn3, Cn3, Cs3, An2, Cn1, //23
   En3, Dn3, Gn2, Gs2, Bn2, En2, //29
-  An3, Gn2, Bn2, Gn2, An5, Gn2, //17
+  An3, Gn2, Bn2, Gn2, An2, An2, //17
 };
 int tirer[] = {
   0,   0,   0, Fs4, Bn3, An4,
@@ -291,7 +291,7 @@ int pinButton[] = {
   17, 20, 21, 24, 25, 26,
   27, 28, 29, 30, 31, 32,
   33, 34, 35, 36, 37, 38,
-  39, 40, 41, 50, 52, 48,
+  39, 40, 41, 50, 52, 52,
 };
 //
 // int tirerSynth[] = {

@@ -10,7 +10,6 @@ Display::Display(uint8_t i2c_address) {
   oled.begin(&Adafruit128x64, i2c_address);
   oled.clear();
   oled.setFont(Adafruit5x7);
-  oled.print("test");
   Wire.begin();           // Init I2C
   Wire.setClock(400000L); // Fast mode
 }

@@ -78,12 +78,11 @@ byte pousserTirer = 1;
 
 void initDisplay(uint8_t i2c_address)
 {
-  oled.begin(&Adafruit128x64, i2c_address);
-  oled.clear();
-  oled.setFont(Adafruit5x7);
-  oled.print("test");
+
   Wire.begin();           // Init I2C
   Wire.setClock(400000L); // Fast mode
+  oled.begin(&Adafruit128x64, i2c_address);
+  oled.setFont(Adafruit5x7);
 }
 
 void displayShift(uint8_t i)
@@ -120,6 +119,15 @@ void displayMainTitle()
 {
   oled.println("Melodica MIDI");
   oled.println("V 2.0.0.0");
+}
+void debug(uint8_t i)
+{
+
+  oled.clear();
+  displayMainTitle();
+  oled.println(i);
+  oled.println(pinButton[i]);
+  delay(100);
 }
 void displayAttack(Configuration conf)
 {
@@ -474,9 +482,9 @@ static void noteMidiBourdon(uint8_t index, Configuration conf, int velocity){
   uint8_t note = pousser[index]+getShift(conf.shiftHalfTone);
   if (bouton == LOW)
   {
-
     // on pousse sur le bouton et sur le soufflet
-    if(oldStatePousser[index] == BUTTON_RELEASED){
+    if (oldStatePousser[index] == BUTTON_RELEASED)
+    {
       oldStatePousser[index] = BUTTON_PRESSED;
       if(bourdonActif[index] == 1){
         noteOff(note, conf);
@@ -486,7 +494,6 @@ static void noteMidiBourdon(uint8_t index, Configuration conf, int velocity){
         bourdonActif[index] = 1;
       }
     }
-
   }else{
     oldStatePousser[index] = BUTTON_RELEASED;
   }
@@ -800,7 +807,7 @@ int updateAudio(){
   }
   long noteBourdon =  (long)envelopeBourdon.next() * (bourdon1.next()+bourdon2.next());
   note = note + noteBourdon;
-  note = note >> (POLYPHONY+8);
+  note = note >> (POLYPHONY+5);
   return note;
 }
 
@@ -841,6 +848,7 @@ static int noteSynthBourdon(uint8_t sens_soufflet, uint8_t index, Configuration 
 void setup() {
   usbMIDI.begin();
   initDisplay(I2C_ADDRESS);
+  maindisplay(0, mode, mode_midi, menuActiveItem, conf);
 
   // Call oled.setI2cClock(frequency) to change from the default frequency.
   startMozzi(CONTROL_RATE); // :)
@@ -854,7 +862,6 @@ void setup() {
   for (uint8_t pin = 0; pin < 36; pin++) {
     pinMode(pinButton[pin],INPUT_PULLUP);
   }
-  maindisplay(0, mode, mode_midi, menuActiveItem, conf);
 }
 
 void updateControl(){
@@ -881,12 +888,13 @@ void updateControl(){
   pousserTirerState = digitalRead(pousserTirer);
   for (int i = 0; i < 36; i++)
   {
-    if( i == 35 ||  i == 0 ||  i == 1 ||  i == 2 ||  i == 34 ){
+    if (i == 35 || i == 0 || i == 1 || i == 2 ||i==24)
+    {
       onOffBourdon += noteSynthBourdon(pousserTirerState, i, conf);
-      noteMidiBourdon(i, conf, 127);
-    }else{
+    }
+    else
+    {
       onOffSynth += noteSynth(pousserTirerState, i, conf);
-      noteMidi(pousserTirerState, i, conf, 127);
     }
   }
   if(onOffBourdon == 0){
@@ -897,10 +905,35 @@ void updateControl(){
 
 
 void loop() {
+  byte pousserTirerState;
   if(countMenu == 200){
     menuSelector();
     countMenu = 0;
   }
   countMenu++;
   audioHook();
+  if (mode == MODE_MIDI)
+  {
+    for (byte i = 0; i < 36; i++)
+    {
+      menuSelector();
+      if (mode_midi == DRUM)
+      {
+        noteMidiDrum(i, 127);
+      }
+      else
+      {
+        pousserTirerState = digitalRead(pousserTirer);
+        if (i == 35 || i == 0 || i == 1 || i == 2 || i == 24)
+        {
+          noteMidiBourdon(i, conf, 127);
+        }
+        else
+        {
+          noteMidi(pousserTirerState, i, conf, 127);
+        }
+      }
+    }
+  }
+
 }
