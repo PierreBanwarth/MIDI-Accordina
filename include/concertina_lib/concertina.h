@@ -311,5 +311,35 @@ int pinButton[] = {
 //   NOTE_G2, NOTE_A2, NOTE_A2, 0, 0, 0,
 // };
 
-
+String keyNames[23] = {
+    "Sol#/Do#",
+    "La/Re",
+    "Sib/Re#",
+    "Si/Mi",
+    "Do/Fa",
+    "Do#/Fa#",
+    "Re/Sol",
+    "Re#/Sol#",
+    "Mi/La",
+    "Fa/Sib",
+    "Fa#/Si",
+    "Sol/Do",
+    "Sol#/Do#",
+    "La/Re",
+    "Sib/Re#",
+    "Si/Mi",
+    "Do/Fa",
+    "Do#/Fa#",
+    "Re/Sol",
+    "Re#/Sol#",
+    "Mi/La",
+    "Fa/Sib",
+    "Fa#/Si"};
+String waveFormNames[5] = {
+    "Sin",
+    "Cos",
+    "Tri",
+    "Saw",
+    "Square",
+};
 #endif

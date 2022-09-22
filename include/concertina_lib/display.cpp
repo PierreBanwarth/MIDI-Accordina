@@ -1,4 +1,5 @@
 #include "SSD1306Ascii.h"
+#include "Wire.h" // Wire library (Included with Arduino IDE)
 
 #include "display.hpp"
 #include "concertina_lib/concertina.h"
@@ -10,6 +11,8 @@ Display::Display(uint8_t i2c_address) {
   oled.clear();
   oled.setFont(Adafruit5x7);
   oled.print("test");
+  Wire.begin();           // Init I2C
+  Wire.setClock(400000L); // Fast mode
 }
 
 void Display::displayShift(uint8_t  i){
