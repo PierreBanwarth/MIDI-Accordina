@@ -36,7 +36,7 @@
 // #DEFINE MIDI_NAME {'M','e','l', 'o','d','i','c', 'a'}
 
 byte mode = MODE_SYNTH;
-byte mode_midi = DRUM;
+byte mode_midi = THEME;
 SSD1306AsciiWire oled;
 
 int countMenu = 0;
@@ -807,7 +807,7 @@ int updateAudio(){
   }
   long noteBourdon =  (long)envelopeBourdon.next() * (bourdon1.next()+bourdon2.next());
   note = note + noteBourdon;
-  note = note >> (POLYPHONY+5);
+  note = note >> (POLYPHONY+6);
   return note;
 }
 
