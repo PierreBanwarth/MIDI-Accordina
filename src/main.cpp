@@ -13,8 +13,6 @@
 #include "concertina_lib/configuration.h"
 #include "concertina_lib/musicMath.h"
 #include "concertina_lib/musicMath.cpp"
-#include "concertina_lib/display.hpp"
-#include "concertina_lib/display.cpp"
 #include <tables/square_analogue512_int8.h>
 #include <tables/triangle_analogue512_int8.h>
 #include <tables/sin512_int8.h>
@@ -71,6 +69,7 @@ Oscil <SIN2048_NUM_CELLS, AUDIO_RATE> aSin(SIN2048_DATA);
 // Define proper RST_PIN if required.
 #define RST_PIN -1
 RotaryEncoder encoder(A1, A0, RotaryEncoder::LatchMode::TWO03);
+
 int state = 0;
 int encoderPosition = 0;
 byte buttonEncoder = 2;
@@ -530,7 +529,6 @@ static int noteSynth(uint8_t sens_soufflet, uint8_t index, Configuration conf){
 
   int noteSynthA = MatriceNote[pousser[index]+getShift(conf.shiftHalfTone)];
   int noteSynthB = MatriceNote[tirer[index]+getShift(conf.shiftHalfTone)];
-
   if (pousser[index] != 0 || tirer[index] != 0)
   {
     if (bouton == LOW)
@@ -772,7 +770,7 @@ static void bourdonSetup(){
   envelopeBourdon.noteOn();
 }
 
-static void menuSelector(Display d){
+static void menuSelector(){
   encoder.tick();
 
   int newPosition = abs(encoder.getPosition());
@@ -781,19 +779,16 @@ static void menuSelector(Display d){
   if (encoderPosition != newPosition)
 
   {
-    d.maindisplay(newPosition, mode, mode_midi, menuActiveItem, conf);
+    maindisplay(newPosition, mode, mode_midi, menuActiveItem, conf);
     encoderPosition = newPosition;
   }
   if(state == HIGH && state != stateButtonEncoder){
     menuActiveItem = menuSelectorSwitch(newPosition, menuActiveItem);
-    d.maindisplay(newPosition, mode, mode_midi, menuActiveItem, conf);
+    maindisplay(newPosition, mode, mode_midi, menuActiveItem, conf);
   }
   stateButtonEncoder = state;
 
 }
-
-
-Display display = Display(I2C_ADDRESS);
 
 int updateAudio(){
   long note = 0;
@@ -803,10 +798,10 @@ int updateAudio(){
     newNote = (long)envelope[i].next() * (oscil1[i].next()+oscil2[i].next());
     note = note + newNote;
   }
-  note = note >> (POLYPHONY+7);
+  long noteBourdon =  (long)envelopeBourdon.next() * (bourdon1.next()+bourdon2.next());
+  note = note + noteBourdon;
+  note = note >> (POLYPHONY+8);
   return note;
-  // int16_t noteBourdon =  (int16_t)envelopeBourdon.next() * (bourdon1.next()+bourdon2.next()) >>8;
-  // return (note + noteBourdon)>>2;
 }
 
 
@@ -844,8 +839,8 @@ static int noteSynthBourdon(uint8_t sens_soufflet, uint8_t index, Configuration 
 }
 
 void setup() {
-  initDisplay(I2C_ADDRESS);
   usbMIDI.begin();
+  initDisplay(I2C_ADDRESS);
 
   // Call oled.setI2cClock(frequency) to change from the default frequency.
   startMozzi(CONTROL_RATE); // :)
@@ -859,7 +854,7 @@ void setup() {
   for (uint8_t pin = 0; pin < 36; pin++) {
     pinMode(pinButton[pin],INPUT_PULLUP);
   }
-  display.maindisplay(0, mode, mode_midi, menuActiveItem, conf);
+  maindisplay(0, mode, mode_midi, menuActiveItem, conf);
 }
 
 void updateControl(){
@@ -872,8 +867,8 @@ void updateControl(){
   uint8_t release_ms = 0; // times for the attack, decay, and release of envelope
   uint8_t sustain  = 0; //sustain time set to zero so notes can be played as long as key is presssed without being effect by previus touch
   byte pousserTirerState = 0;
-  
-  
+
+
   for (byte z = 0; z < POLYPHONY; z++)
   {
     envelope[z].setReleaseLevel(0);
@@ -881,18 +876,18 @@ void updateControl(){
     envelope[z].setTimes(attack,decay,sustain,release_ms);
   }
   bourdonSetup();
-
-
   uint8_t onOffSynth = 0;
   uint8_t onOffBourdon = 0;
   pousserTirerState = digitalRead(pousserTirer);
   for (int i = 0; i < 36; i++)
   {
-    onOffSynth += noteSynth(pousserTirerState, i, conf);
-    // if(pinButton[i] == 52 || pinButton[i] == 53 || pinButton[i] == 34 || pinButton[i] == 36 || pinButton[i] == 37 || pinButton[i] == 39 ){
-    //     onOffBourdon += noteSynthBourdon(pousserTirerState, i, conf);
-    // }else{
-    // }
+    if( i == 35 ||  i == 0 ||  i == 1 ||  i == 2 ||  i == 34 ){
+      onOffBourdon += noteSynthBourdon(pousserTirerState, i, conf);
+      noteMidiBourdon(i, conf, 127);
+    }else{
+      onOffSynth += noteSynth(pousserTirerState, i, conf);
+      noteMidi(pousserTirerState, i, conf, 127);
+    }
   }
   if(onOffBourdon == 0){
     envelopeBourdon.noteOff();
@@ -903,25 +898,9 @@ void updateControl(){
 
 void loop() {
   if(countMenu == 200){
-    menuSelector(display);
+    menuSelector();
     countMenu = 0;
   }
   countMenu++;
-  byte pousserTirerState;
   audioHook();
-  if(mode == MODE_MIDI){
-    for (byte i = 0; i < 36; i++){
-      // menuSelector();
-      if(mode_midi == DRUM){
-        noteMidiDrum(i, 127);
-      }else{
-          pousserTirerState = digitalRead(pousserTirer);
-        if(pinButton[i] == 52 || pinButton[i] == 53 || pinButton[i] == 34 || pinButton[i] == 36 || pinButton[i] == 37 || pinButton[i] == 39 ){
-          noteMidiBourdon(i, conf, 127);
-        }else{
-          noteMidi(pousserTirerState, i, conf, 127);
-        }
-      }
-    }
-  }
 }

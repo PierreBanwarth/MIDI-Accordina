@@ -188,7 +188,7 @@ enum
     An4 = 9 + 36,
     As4 = 10 + 36,
     Bn4 = 11 + 36,
-
+    An5 = 9 + 48,
     Eb1 = As1,
     Bb1 = Ds1,
     Eb2 = As2,
@@ -269,29 +269,29 @@ int drum[] = {
 };
 
 int pousser[] = {
-  0,0,0, Bn4, En4, Fn4,
-  Gn4, En4, Cn4, Dn4, Gn3, Cs2,
-  Cn2, Gn1, Dn2, Gs3, Bn3, En3,
-  An3, Gn3, Cn3, Cs3, An2, Cn1,
-  0  , Dn3, Gn2, Gs2, Bn2, En2,
-  An3, Gn2, Bn2, 0, 0, 0,
+  Dn3, Gn3, Cn3, Bn4, En4, Fn4, //5
+  Gn4, En4, Cn4, Dn4, Gn3, Cs2, //11
+  Cn2, Gn1, Dn2, Gs3, Bn3, En3, //17
+  An3, Gn3, Cn3, Cs3, An2, Cn1, //23
+  En3, Dn3, Gn2, Gs2, Bn2, En2, //29
+  An3, Gn2, Bn2, Gn2, An5, Gn2, //17
 };
 int tirer[] = {
-  0, 0, 0, Fs4, Bn3, An4,
+  0,   0,   0, Fs4, Bn3, An4,
   En4, Ds4, An3, Cn4, Fn3, Ds2,
   Dn2, Bn1, Fs2, As3, An3, Dn3,
   Gn3, Fs3, Bn2, Ds3, Gn2, Gn1,
-  0  , En3, An2, As2, Cn3, Fn2,
-  Gn2, An2, An2, 0, 0, 0,
+  En3, En3, An2, As2, Cn3, Fn2,
+  Gn2, An2, An2, 0,   0,   0,
 };
 
 int pinButton[] = {
-  0, 3, 4, 5, 6, 7,
-  8, 9, 10, 11, 12, 16,
+  0,  3,  4,  5,  6,  7,
+  8,  9,  10, 11, 12, 16,
   17, 20, 21, 24, 25, 26,
   27, 28, 29, 30, 31, 32,
   33, 34, 35, 36, 37, 38,
-  39, 40, 41, 42, 43, 44,
+  39, 40, 41, 48, 50, 49,
 };
 //
 // int tirerSynth[] = {
