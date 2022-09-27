@@ -260,8 +260,10 @@ Objectif :
  - Creer une appli web de création de clavier.
  - Créer un Clavier Diato/Chroma
  - Faire découper les deux grilles par Fanchig.
- - Tester sortie son acheter
+ - Tester sortie son achetée récemment (MOZZI ?)
  - Multiplexage
+ - Carte SD
+ - Reflechier mise à jour du Melodica MIDI a distance.
   
   
 Quelques remerciements pour leur aide direct ou leur soutien :  
