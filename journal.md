@@ -218,7 +218,7 @@ Retour d’expérience sur le deuxième prototype :
  - Encoder + écran = beaucoup d’options, de debug et clairement de classe.
  - Mozzy => l’arduino MEGA pas assez rapide.
 
-# Prototype 4 Teensy 4.1 :
+# Prototype V4 Teensy 4.1 :
 Toujours éloigné de la forme même du concertina j’ai décidé de pousser plus loin l’accordina MIDI.  
 En effet agréable à jouer tant au bureau avec Abletone qu’en itinérance au casque.  
 J’étais plutôt satisfait du prototype précédent. Cependant je restais curieux du Teensy qui a la réputation d’aller plus vite et d’être fait pour ça.  
@@ -254,7 +254,16 @@ Cependant je pourrais me réaliser un concertina MIDI des que j’aurais répond
 Hors des considérations commerciales sur cet objet, l’objectif à terme est surtout de se former pour pouvoir jouer de ces instruments sur scène (formation synth + Abletone)  
 Et malgré les difficultés rencontrées le plus passionnant dans ce projet c’est d’apprendre et d’approfondir les notions une par une pour créer un objet final qui puisse être utilisé  
 
+# Prototype V5 : Appli Web et professionalisation du projet
 
+Objectif :  
+ - Creer une appli web de création de clavier.
+ - Créer un Clavier Diato/Chroma
+ - Faire découper les deux grilles par Fanchig.
+ - Tester sortie son acheter
+ - Multiplexage
+  
+  
 Quelques remerciements pour leur aide direct ou leur soutien :  
 Camille MILLET, Tony JEGO, Yannick CHIRON, Nicolas HARRAND, Jean BANWARTH
 
