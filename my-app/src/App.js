@@ -31,10 +31,11 @@ const styles = {
 };
 
 const optionOctave = [
-  { value: 0, label: '1' },
-  { value: 1, label: '2' },
-  { value: 2, label: '3' },
-  { value: 3, label: '4' },
+  { value: 0, label: '0' },
+  { value: 1, label: '1' },
+  { value: 2, label: '2' },
+  { value: 3, label: '3' },
+  { value: 4, label: '4' },
 ]
 
 class Key extends React.Component {
@@ -138,18 +139,18 @@ const instrumentKeyboardData = [
     [{ push: 4, pull: 4 , octpull : 1, octpush : 1}, { push: 4, pull: 4 , octpull : 1, octpush : 1}, { push: 4, pull: 4 , octpull : 1, octpush : 1}],
   ],
   [
-    [{ push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}],
-    [{ push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}],
-    [{ push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}],
-    [{ push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}],
-    [{ push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}],
-    [{ push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}],
-    [{ push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}],
-    [{ push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}],
-    [{ push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}],
-    [{ push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}],
-    [{ push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}],
-    [{ push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}, { push: 5, pull: 5 , octpull : 1, octpush : 1}],
+    [{ push: 9, pull: 9 , octpull : 1, octpush : 1}, { push: 10, pull: 10 , octpull : 1, octpush : 1}, { push: 11, pull: 11 , octpull : 1, octpush : 1}],
+    [{ push: 0, pull: 0 , octpull : 2, octpush : 2}, { push: 1, pull: 1 , octpull : 2, octpush : 2}, { push: 2, pull: 2 , octpull : 2, octpush : 2}],
+    [{ push: 3, pull: 3 , octpull : 2, octpush : 2}, { push: 4, pull: 4 , octpull : 2, octpush : 2}, { push: 5, pull: 5 , octpull : 2, octpush : 2}],
+    [{ push: 6, pull: 6 , octpull : 2, octpush : 2}, { push: 7, pull: 7 , octpull : 2, octpush : 2}, { push: 8, pull: 8 , octpull : 2, octpush : 2}],
+    [{ push: 9, pull: 9 , octpull : 2, octpush : 2}, { push: 10, pull: 10 , octpull : 2, octpush : 2}, { push: 11, pull: 11 , octpull : 2, octpush : 2}],
+    [{ push: 0, pull: 0 , octpull : 3, octpush : 3}, { push: 1, pull: 1 , octpull : 3, octpush : 3}, { push: 2, pull: 2 , octpull : 3, octpush : 3}],
+    [{ push: 3, pull: 3 , octpull : 3, octpush : 3}, { push: 4, pull: 4 , octpull : 3, octpush : 3}, { push: 5, pull: 5 , octpull : 3, octpush : 3}],
+    [{ push: 6, pull: 6 , octpull : 3, octpush : 3}, { push: 7, pull: 7 , octpull : 3, octpush : 3}, { push: 8, pull: 8 , octpull : 3, octpush : 3}],
+    [{ push: 9, pull: 9 , octpull : 3, octpush : 3}, { push: 10, pull: 10 , octpull : 3, octpush : 3}, { push: 11, pull: 11 , octpull : 3, octpush : 3}],
+    [{ push: 0, pull: 0 , octpull : 4, octpush : 4}, { push: 1, pull: 1 , octpull : 4, octpush : 4}, { push: 2, pull: 2 , octpull : 4, octpush : 4}],
+    [{ push: 3, pull: 3 , octpull : 4, octpush : 4}, { push: 4, pull: 4 , octpull : 4, octpush : 4}, { push: 5, pull: 5 , octpull : 4, octpush : 4}],
+    [{ push: 6, pull: 6 , octpull : 4, octpush : 4}, { push: 7, pull: 7 , octpull : 4, octpush : 4}, { push: 8, pull: 8 , octpull : 4, octpush : 4}],
   ],[
     [{ push: 6, pull: 6 , octpull : 1, octpush : 1}, { push: 6, pull: 6 , octpull : 1, octpush : 1}, { push: 6, pull: 6 , octpull : 1, octpush : 1}],
     [{ push: 6, pull: 6 , octpull : 1, octpush : 1}, { push: 6, pull: 6 , octpull : 1, octpush : 1}, { push: 6, pull: 6 , octpull : 1, octpush : 1}],
