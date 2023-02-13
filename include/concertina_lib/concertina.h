@@ -2,7 +2,6 @@
 #define __CONCERTINA_H__
 #include "Arduino.h"
 #include <MIDI.h>
-#include "concertina_lib/configuration.h"
 #define OCTAVE 1
 #define MODE 2
 #define DISPLAY_STATE 3
@@ -123,71 +122,71 @@
 
 enum waveform { SIN = 1, COS = 2, TRI = 3, SAW = 4, SQUARE = 5};
 
-Configuration newPresets[] = {
-  Configuration("Squ Tri",2,11, -1 ,-1 ,-2,-3 ,4,4,2,0 , 250, 250),
-  Configuration("Bass",   4,11, -1, -2, -2,-3, 0,4,2,0 , 200, 200),
-  Configuration("Squ Tri",1,11, -3 ,-2 ,-2,-3 ,4,4,2,0 , 200, 200),
-  Configuration("Squ Tri",1,11, -3 ,-2 ,-2,-3 ,4,4,2,0 , 200, 200),
-  Configuration("Squ Tri",1,11, -3 ,-2 ,-2,-3 ,4,4,2,0 , 200, 200),
-  Configuration("Squ Tri",1,11, -3 ,-2 ,-2,-3 ,4,4,2,0 , 200, 200),
-  Configuration("Squ Tri",1,11, -3 ,-2 ,-2,-3 ,4,4,2,0 , 200, 200)
-
-};
+//Configuration newPresets[] = {
+//  Configuration("Squ Tri",2,11, -1 ,-1 ,-2,-3 ,4,4,2,0 , 250, 250),
+//  Configuration("Bass",   4,11, -1, -2, -2,-3, 0,4,2,0 , 200, 200),
+//  Configuration("Squ Tri",1,11, -3 ,-2 ,-2,-3 ,4,4,2,0 , 200, 200),
+//  Configuration("Squ Tri",1,11, -3 ,-2 ,-2,-3 ,4,4,2,0 , 200, 200),
+//  Configuration("Squ Tri",1,11, -3 ,-2 ,-2,-3 ,4,4,2,0 , 200, 200),
+//  Configuration("Squ Tri",1,11, -3 ,-2 ,-2,-3 ,4,4,2,0 , 200, 200),
+//  Configuration("Squ Tri",1,11, -3 ,-2 ,-2,-3 ,4,4,2,0 , 200, 200)
+//
+//};
 
 enum
 {
     // DEFINING MIDI notes
-    Cn1 = 0,
+    C1 = 0,
     Cs1 = 1,
-    Dn1 = 2,
+    D1 = 2,
     Ds1 = 3,
-    En1 = 4,
-    Fn1 = 5,
+    E1 = 4,
+    F1 = 5,
     Fs1 = 6,
-    Gn1 = 7,
+    G1 = 7,
     Gs1 = 8,
     An1 = 9,
     As1 = 10,
     Bn1 = 11,
 
-    Cn2 = 0 + 12,
+    C2 = 0 + 12,
     Cs2 = 1 + 12,
-    Dn2 = 2 + 12,
+    D2 = 2 + 12,
     Ds2 = 3 + 12,
-    En2 = 4 + 12,
-    Fn2 = 5 + 12,
+    E2 = 4 + 12,
+    F2 = 5 + 12,
     Fs2 = 6 + 12,
-    Gn2 = 7 + 12,
+    G2 = 7 + 12,
     Gs2 = 8 + 12,
     An2 = 9 + 12,
     As2 = 10 + 12,
-    Bn2 = 11 + 12,
+    B2 = 11 + 12,
 
-    Cn3 = 0 + 24,
+    C3 = 0 + 24,
     Cs3 = 1 + 24,
-    Dn3 = 2 + 24,
+    D3 = 2 + 24,
     Ds3 = 3 + 24,
-    En3 = 4 + 24,
-    Fn3 = 5 + 24,
+    E3 = 4 + 24,
+    F3 = 5 + 24,
     Fs3 = 6 + 24,
-    Gn3 = 7 + 24,
+    G3 = 7 + 24,
     Gs3 = 8 + 24,
     An3 = 9 + 24,
     As3 = 10 + 24,
-    Bn3 = 11 + 24,
+    B3 = 11 + 24,
 
-    Cn4 = 0 + 36,
+    C4 = 0 + 36,
     Cs4 = 1 + 36,
-    Dn4 = 2 + 36,
+    D4 = 2 + 36,
     Ds4 = 3 + 36,
-    En4 = 4 + 36,
-    Fn4 = 5 + 36,
+    E4 = 4 + 36,
+    F4 = 5 + 36,
     Fs4 = 6 + 36,
-    Gn4 = 7 + 36,
+    G4 = 7 + 36,
     Gs4 = 8 + 36,
     An4 = 9 + 36,
     As4 = 10 + 36,
-    Bn4 = 11 + 36,
+    B4 = 11 + 36,
     An5 = 9 + 48,
     Eb1 = As1,
     Bb1 = Ds1,
@@ -227,20 +226,49 @@ uint8_t bourdonActif[] = {
   0, 0, 0, 0, 0, 0,
 };
 
-int MatriceNote[72] = {
-  // 0         1         2          3        4         5         6         7         8        9         10       11
-  NOTE_C1,  NOTE_CS1, NOTE_D1,  NOTE_DS1, NOTE_E1,  NOTE_F1,  NOTE_FS1, NOTE_G1,  NOTE_GS1, NOTE_A1,  NOTE_AS1, NOTE_B1,
-  // 12        13        14         15       16       17        18        19        20       21         22       23
-  NOTE_C2,  NOTE_CS2, NOTE_D2,  NOTE_DS2, NOTE_E2,  NOTE_F2,  NOTE_FS2, NOTE_G2,  NOTE_GS2, NOTE_A2,  NOTE_AS2, NOTE_B2,
-  // 24        25        26         27       28       29        30        31        32       33         34       35
-  NOTE_C3,  NOTE_CS3, NOTE_D3,  NOTE_DS3, NOTE_E3,  NOTE_F3,  NOTE_FS3, NOTE_G3,  NOTE_GS3, NOTE_A3,  NOTE_AS3, NOTE_B3,
-  // 36        37        38         39       40       41        42        43        44       45         46       47
-  NOTE_C4,  NOTE_CS4, NOTE_D4,  NOTE_DS4, NOTE_E4,  NOTE_F4,  NOTE_FS4, NOTE_G4,  NOTE_GS4, NOTE_A4,  NOTE_AS4, NOTE_B4,
-  // 48        49        50         51       52       53        54        55        56       57         58       59
-  NOTE_C5,  NOTE_CS5, NOTE_D5,  NOTE_DS5, NOTE_E5,  NOTE_F5,  NOTE_FS5, NOTE_G5,  NOTE_GS5, NOTE_A5,  NOTE_AS5, NOTE_B5,
-  // 60        61        62         63       64       65        66        67        68       69         70       71
-  NOTE_C6,  NOTE_CS6, NOTE_D6,  NOTE_DS6, NOTE_E6,  NOTE_F6,  NOTE_FS6, NOTE_G6,  NOTE_GS6, NOTE_A6,  NOTE_AS6, NOTE_B6,
-};
+// const byte pousser[36] = {
+//   F2, G2, An2, 
+//   Bb3, B3, Fs3, 
+//   Eb3, D3, An3, 
+//   G3, F4, C4, 
+//   Bb4, An4, E4, 
+//   0, B4, Gs4, 
+//   0, Gs4, C4, 
+//   Cs4, B4, Fs4, 
+//   Eb4, D4, An4, 
+//   G4, F4, C4, 
+//   Bb4, An4, E4, 
+//   D4, B4, F4, 
+// };
+// 
+// const byte tirer[36] = {
+//   E2, C2, B2, 
+//   An2, G2, D2, 
+//   Cs2, C2, G2,
+//   An2, E2, B3, 
+//   Gs3, G3, D3,
+//   0, Bb3, Fs3,
+//   0, Fs3, D3,
+//   Eb3, C4, G4,
+//   Cs4, E4, B4, 
+//   Gs4, G4, D4,
+//   Cs4, C4, G4,
+//   An4, E4, Bb4,
+// };
+// int MatriceNote[72] = {
+//   // 0         1         2          3        4         5         6         7         8        9         10       11
+//   NOTE_C1,  NOTE_CS1, NOTE_D1,  NOTE_DS1, NOTE_E1,  NOTE_F1,  NOTE_FS1, NOTE_G1,  NOTE_GS1, NOTE_A1,  NOTE_AS1, NOTE_B1,
+//   // 12        13        14         15       16       17        18        19        20       21         22       23
+//   NOTE_C2,  NOTE_CS2, NOTE_D2,  NOTE_DS2, NOTE_E2,  NOTE_F2,  NOTE_FS2, NOTE_G2,  NOTE_GS2, NOTE_A2,  NOTE_AS2, NOTE_B2,
+//   // 24        25        26         27       28       29        30        31        32       33         34       35
+//   NOTE_C3,  NOTE_CS3, NOTE_D3,  NOTE_DS3, NOTE_E3,  NOTE_F3,  NOTE_FS3, NOTE_G3,  NOTE_GS3, NOTE_A3,  NOTE_AS3, NOTE_B3,
+//   // 36        37        38         39       40       41        42        43        44       45         46       47
+//   NOTE_C4,  NOTE_CS4, NOTE_D4,  NOTE_DS4, NOTE_E4,  NOTE_F4,  NOTE_FS4, NOTE_G4,  NOTE_GS4, NOTE_A4,  NOTE_AS4, NOTE_B4,
+//   // 48        49        50         51       52       53        54        55        56       57         58       59
+//   NOTE_C5,  NOTE_CS5, NOTE_D5,  NOTE_DS5, NOTE_E5,  NOTE_F5,  NOTE_FS5, NOTE_G5,  NOTE_GS5, NOTE_A5,  NOTE_AS5, NOTE_B5,
+//   // 60        61        62         63       64       65        66        67        68       69         70       71
+//   NOTE_C6,  NOTE_CS6, NOTE_D6,  NOTE_DS6, NOTE_E6,  NOTE_F6,  NOTE_FS6, NOTE_G6,  NOTE_GS6, NOTE_A6,  NOTE_AS6, NOTE_B6,
+// };
 
 // int pousserSynthNew[] = {
 //   33, 31, 37, 36, 32, 35,
@@ -258,41 +286,41 @@ int MatriceNote[72] = {
 //   52, 45, 51, 48, 41, 46,
 //   45, 38, 43, 42, 38, 33
 // };
-
-int drum[] = {
-  Cs2, An1, 0,   0,   Cn2, Bn1,
-  As1, Gs1, Gn1, Fs1, En1, Fn1,
-  Dn1, Ds1, Cn1, Cs1, 0,   Dn2,
-  0,   0,   0,   0,   0,   0,
-  0,   0,   0,   0,   0,   0,
-  0,   0,   0,   0,   0,   0
-};
-
-int pousser[] = {
-  Dn3, Gn3, Cn3, Bn4, En4, Fn4, //5
-  Gn4, En4, Cn4, Dn4, Gn3, Cs2, //11
-  Cn2, Gn1, Dn2, Gs3, Bn3, En3, //17
-  An3, Gn3, Cn3, Cs3, An2, Cn1, //23
-  En3, Dn3, Gn2, Gs2, Bn2, En2, //29
-  An3, Gn2, Bn2, Gn2, An2, An2, //17
-};
-int tirer[] = {
-  0,   0,   0, Fs4, Bn3, An4,
-  En4, Ds4, An3, Cn4, Fn3, Ds2,
-  Dn2, Bn1, Fs2, As3, An3, Dn3,
-  Gn3, Fs3, Bn2, Ds3, Gn2, Gn1,
-  En3, En3, An2, As2, Cn3, Fn2,
-  Gn2, An2, An2, 0,   0,   0,
-};
-
-int pinButton[] = {
-  0,  3,  4,  5,  6,  7,
-  8,  9,  10, 11, 12, 16,
-  17, 20, 21, 24, 25, 26,
-  27, 28, 29, 30, 31, 32,
-  33, 34, 35, 36, 37, 38,
-  39, 40, 41, 50, 52, 52,
-};
+// 
+// int drum[] = {
+//   Cs2, An1, 0,   0,   Cn2, Bn1,
+//   As1, Gs1, Gn1, Fs1, En1, Fn1,
+//   Dn1, Ds1, Cn1, Cs1, 0,   Dn2,
+//   0,   0,   0,   0,   0,   0,
+//   0,   0,   0,   0,   0,   0,
+//   0,   0,   0,   0,   0,   0
+// };
+// 
+// int pousser[] = {
+//   Dn3, Gn3, Cn3, Bn4, En4, Fn4, //5
+//   Gn4, En4, Cn4, Dn4, Gn3, Cs2, //11
+//   Cn2, Gn1, Dn2, Gs3, Bn3, En3, //17
+//   An3, Gn3, Cn3, Cs3, An2, Cn1, //23
+//   En3, Dn3, Gn2, Gs2, Bn2, En2, //29
+//   An3, Gn2, Bn2, Gn2, An2, An2, //17
+// };
+// int tirer[] = {
+//   0,   0,   0, Fs4, Bn3, An4,
+//   En4, Ds4, An3, Cn4, Fn3, Ds2,
+//   Dn2, Bn1, Fs2, As3, An3, Dn3,
+//   Gn3, Fs3, Bn2, Ds3, Gn2, Gn1,
+//   En3, En3, An2, As2, Cn3, Fn2,
+//   Gn2, An2, An2, 0,   0,   0,
+// };
+// 
+// int pinButton[] = {
+//   0,  3,  4,  5,  6,  7,
+//   8,  9,  10, 11, 12, 16,
+//   17, 20, 21, 24, 25, 26,
+//   27, 28, 29, 30, 31, 32,
+//   33, 34, 35, 36, 37, 38,
+//   39, 40, 41, 50, 52, 52,
+// };
 //
 // int tirerSynth[] = {
 //   0, 0, 0, NOTE_B4, NOTE_E4, NOTE_F4,
@@ -335,6 +363,7 @@ String keyNames[23] = {
     "Mi/La",
     "Fa/Sib",
     "Fa#/Si"};
+
 String waveFormNames[5] = {
     "Sin",
     "Cos",
