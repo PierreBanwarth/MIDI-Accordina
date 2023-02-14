@@ -1,10 +1,4 @@
 #include "musicMath.h"
-#include <tables/cos2048_int8.h>
-#include <tables/sin2048_int8.h> //Wavetables for Oscillators
-#include <tables/saw2048_int8.h>
-#include <tables/triangle2048_int8.h>
-#include <tables/square_no_alias_2048_int8.h>
-#include <tables/triangle_valve_2_2048_int8.h>
 #include <stdlib.h>
 #include <Arduino.h>
 
@@ -39,16 +33,4 @@ extern int getShift(int i){
   return (i%23)-11;
 }
 
-extern const int8_t* getWaveFromInt(int i){
-  if(i==1){
-    return(SIN2048_DATA);
-  }else if(i==2){
-    return(COS2048_DATA);
-  }else if(i==3){
-    return(TRIANGLE2048_DATA);
-  }else if(i==4){
-    return(SAW2048_DATA);
-  }else{
-    return(SQUARE_NO_ALIAS_2048_DATA);
-  }
-}
+

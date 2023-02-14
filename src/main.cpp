@@ -2,6 +2,15 @@
 
 #include "concertina_lib/concertina.h"
 
+#include "concertina_lib/display.hpp"
+#include "concertina_lib/display.cpp"
+
+#include "concertina_lib/configuration.h"
+#include "concertina_lib/configuration.cpp"
+#include "concertina_lib/keyboard.hpp"
+#include "concertina_lib/keyboard.cpp"
+#include "concertina_lib/musicMath.h"
+
 #include <Wire.h>
 #include <PCF8575.h>
 #include <stdlib.h>
@@ -13,17 +22,13 @@
 #include "RotaryEncoder.h" // RotaryEncoder v1.5.0 library by Matthais Hertel
 
 
-/* Example for 8 input buttons that are connected from the GPIO expander pins to ground.
- * Note the buttons must be connected with the other side of the switch to GROUND. There is
- * a built in pull-up 'resistor' on each input, but no pull-down resistor capability.
- */
-// Info pin 33 seems to be broken
 
-// todo add midi
-// todo add sounds
-// todo add encoder
-// todo add display
-// try everything
+
+#define PRESSED 0
+#define RELEASED 1
+
+
+// Info pin 33 seems to be broken
 
 // declaration of the screen object SSD1306AsciiWire oled on second i2c bus (SDA=21, SCL=22) 
 SSD1306AsciiWire oled; // I2C address 0x3C for 128x64
@@ -31,52 +36,40 @@ SSD1306AsciiWire oled; // I2C address 0x3C for 128x64
 
 // declaration of the encoder object RotaryEncoder encoder(2, 3);
 RotaryEncoder encoder(2, 3);
+uint8_t encoderPosition = 0;
+uint8_t buttonEncoder = 0;
+// declaration of a display object
+// TODO TEST DISPLAY AND KEYBOARD
+// Display display(&oled, 0x3C, &Wire1);
+// Keyboard keyboard(0x20, 0x22, &Wire);
 
-
+uint8_t topPotPin = 0;
+uint8_t bottomPotPin = 0;
+uint8_t previousTopPotValue = 0;
+uint8_t previousBottomPotValue = 0;
 
 // declaration of the PCF8575 objects
-
-
 PCF8575 PCF1(0x20, &Wire);
 PCF8575 PCF2(0x22, &Wire);
+
 // declaration of the button states array
 uint8_t buttonStates[36];
+
 // adding an old state array to keep in memory the last state of the keyboard
 uint8_t oldButtonStates[36];
 // add constants for pressed an released buttons
+
 const uint8_t buttonPressed = 0;
 const uint8_t buttonReleased = 1;
 // declare each value of an 36 buttons array
 // values of each pin sorted by rows
-const byte pousser[36] = {
-  F2, G2, An2, 
-  Bb3, B3, Fs3, 
-  Eb3, D3, An3, 
-  G3, F4, C4, 
-  Bb4, An4, E4, 
-  0, B4, Gs4, 
-  0, Gs4, C4, 
-  Cs4, B4, Fs4, 
-  Eb4, D4, An4, 
-  G4, F4, C4, 
-  Bb4, An4, E4, 
-  D4, B4, F4, 
+
+const byte pinMenu[6] = {
+  0, 1, 2, 
+  3, 4, 5, 
 };
 
-const byte tirer[36] = {
-  E2, C2, B2, 
-  An2, G2, D2, 
-  Cs2, C2, G2,
-  An2, E2, B3, 
-  Gs3, G3, D3,
-  0, Bb3, Fs3,
-  0, Fs3, D3,
-  Eb3, C4, G4,
-  Cs4, E4, B4, 
-  Gs4, G4, D4,
-  Cs4, C4, G4,
-  An4, E4, Bb4,
-};
+
 // replace 0 by value of the pin and add 32
 const byte pinArrayPCF[36] = {
   4, 0, 0, 
@@ -107,18 +100,14 @@ const byte pinArrayClassicPin[36] = {
   0, 0, 0,
   0, 0, 0,
 };
-int indexArrayScan = 0;
 
+uint8_t indexArrayScan = 0;
 void setup(){
   indexArrayScan = 0;
-  // initialize screen 
-  oled.begin(&Adafruit128x64, 0x3C);
-  oled.setFont(Adafruit5x7);
-  oled.clear();
-  oled.set1X();
-  oled.println("Hello World!");
-  oled.println("I'm a 128x64");
-  oled.println("OLED display!");
+  // initialize screen
+  // TODO : TEST DISPLAY AND KEYBOARD
+  //display.initDisplay();
+  //display.displayMainTitle();
 
   // initialize tab values
   for(int i = 0; i < 36; i++){
@@ -168,6 +157,8 @@ void setup(){
   PCF1.setButtonMask(0xFFFF);
   PCF2.setButtonMask(0xFFFF);
 }
+
+
 // function of menuing with the encoder
 // Five menu items
 int getButtonState(uint8_t index){
@@ -185,7 +176,37 @@ int getButtonState(uint8_t index){
   }
 
 }
+int getSouffletState(){
+  return digitalRead(SOUFFLET_PIN);
+}
 
+int getOldState(uint8_t index){
+  return oldButtonStates[index];
+}
+
+int noteToPlay(uint8_t index){
+  int button = getButtonState(index);
+  int oldState = getOldState(index);
+  int soufflet = getSouffletState();
+  uint8_t notePousser = pousser[index];
+  uint8_t noteTirer = tirer[index];
+
+  // if button is pressed and soufflet is pressed
+  if(button == PRESSED && soufflet == PRESSED){
+    // if button was not pressed before
+    if(oldState == RELEASED){
+      // play note
+    }
+    else{
+      // do nothing
+      return 0;
+    }
+  }
+  else{
+    // do nothing
+    return 0;
+  }
+}
 
 // a function that get from PCF1 and PCF2 return an array of the buttons states
 void getButtonStates(uint8_t buttonStates[36]){
@@ -201,6 +222,7 @@ void getButtonStates(uint8_t buttonStates[36]){
     buttonStates[i+32] = digitalRead(i);
   }
 }
+
 
 
 // display in line of all array of button states not pressed yet
@@ -230,16 +252,71 @@ void displayButtonPressed(uint8_t buttonStates[36]){
   Serial.println();
 }
 
+void displayMenuButtonStates(){
+  for(int i = 0; i < 6; i++){
+    if(digitalRead(pinMenu[i]) == 0){
+      Serial.print(pinMenu[i]);
+      Serial.print(" ");
+    }
+  }
+  Serial.println();
+}
+
+void testEncoder(){
+  encoder.tick();
+  uint8_t newValue = encoder.getPosition();
+  uint8_t newPressed = digitalRead(buttonEncoder);
+
+  if(encoderPosition != newValue){
+    encoderPosition = newValue;
+    Serial.print("Encoder : ");
+    Serial.println(encoderPosition);
+  }
+  // if encoderButtonState is Pressed and was not pressed before
+  if(newPressed == PRESSED && newPressed != buttonEncoder){
+    Serial.println("Encoder Button Pressed");
+  }
+  buttonEncoder = newPressed;
+}
+void analogPots()
+{
+  uint8_t topPotValue = map(analogRead(topPotPin), 0, 1023, 0, 127);
+  uint8_t bottomPotValue = map(analogRead(bottomPotPin), 0, 1023, 0, 127); 
+  
+  if (topPotValue != previousTopPotValue)                                                 // No deadzone on this, as tiny random changes are inconsequential, maybe even desireable?
+  {
+    previousTopPotValue = topPotValue;
+    Serial.print("Top Pot Value: ");
+    Serial.print(topPotValue);
+  }
+  // same for bottom pot
+  if (bottomPotValue != previousBottomPotValue)                                                 // No deadzone on this, as tiny random changes are inconsequential, maybe even desireable?
+  {
+    previousBottomPotValue = bottomPotValue;
+    Serial.print("Bottom Pot Value: ");
+    Serial.print(bottomPotValue);
+  }
+}
+
+void testHardware(){
+  if(indexArrayScan >= 36){
+    indexArrayScan = 0;
+  }
+
+  buttonStates[indexArrayScan] = getButtonState(indexArrayScan);
+  // display buttonStates in one line
+  displayButtonPressed(buttonStates);
+  displayMenuButtonStates();
+  testEncoder();
+  analogPots();
+  indexArrayScan++;
+}
 
 
 void loop()
 {
-  if(indexArrayScan >= 36){
-    indexArrayScan = 0;
-  }
-  buttonStates[indexArrayScan] = getButtonState(indexArrayScan);
-  // display buttonStates in one line
-  displayButtonPressed(buttonStates);
-  indexArrayScan++;
+  // TODO : Test keyboard
+  // uint8_t noteToPlay = keyboard.accordion(indexArrayScan);
+  testHardware();
 
 }
