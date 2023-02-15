@@ -329,7 +329,9 @@ void loop()
   // uint8_t noteToPlay = keyboard.accordion(indexArrayScan);
   getButtonStates(buttonStates);
   displayButtonPressed(buttonStates);
-  //testHardware();
+  //testHardware()
+  
+  ;
   //drum1.noteOn();
   AudioProcessorUsageMaxReset();
 }
