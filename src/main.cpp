@@ -42,7 +42,9 @@ AudioControlSGTL5000 sgtl5000_1; // xy=930,518
 
 
 SSD1306AsciiWire oled; // I2C address 0x3C for 128x64
-
+// declaration of the PCF8575 objects
+PCF8575 PCF1(0x20, &Wire1);
+PCF8575 PCF2(0x22, &Wire1);
 
 // declaration of the encoder object RotaryEncoder encoder(2, 3);
 RotaryEncoder encoder(14, 15);
@@ -61,8 +63,7 @@ uint8_t previousTopPotValue = 0;
 uint8_t previousBottomPotValue = 0;
 
 // declaration of the PCF8575 objects
-PCF8575 PCF1(0x20, &Wire1);
-PCF8575 PCF2(0x22, &Wire1);
+
 
 // declaration of the button states array
 uint8_t buttonStates[36];
@@ -164,14 +165,55 @@ void setup(){
   }
   pinMode(topPotPin, INPUT);
   pinMode(bottomPotPin, INPUT);
-
-  PCF1.begin();
-  PCF2.begin();
-
-  PCF1.setButtonMask(0xFFFF);
-  PCF2.setButtonMask(0xFFFF);
-}
-
+  int error;
+  int found = 0;
+  for (int address = 1; address < 127; address++)
+  {
+    // The i2c_scanner uses the return value of
+    // the Write.endTransmisstion to see if
+    // a device did acknowledge to the address.
+    Wire1.beginTransmission(address);
+    error = Wire1.endTransmission();
+  
+    if (error == 0)
+    {
+      Serial.print(address, HEX);
+      if(found == 0){
+        PCF1.setAddress(address);
+        found++;
+      }else if(found == 1){
+        PCF2.setAddress(address);
+      }
+    }
+  }
+    if (!PCF1.begin())
+    {
+      oled.println("could not initialize...");
+    }
+    if (!PCF1.isConnected())
+    {
+      oled.println("=> not connected");
+    }
+    else
+    {
+      oled.println("=> connected!!");
+    }
+    if (!PCF2.begin())
+    {
+      oled.println("could not initialize...");
+    }
+    if (!PCF2.isConnected())
+    {
+      oled.println("=> not connected");
+    }
+    else
+    {
+      oled.println("=> connected!!");
+    }
+    delay(3000);
+    PCF1.setButtonMask(0xFFFF);
+    PCF2.setButtonMask(0xFFFF);
+  }
 
 // function of menuing with the encoder
 // Five menu items
@@ -310,13 +352,24 @@ void analogPots()
 }
 
 void testHardware(){
-  oled.println("test");
   if(indexArrayScan >= 36){
     indexArrayScan = 0;
   }
-  buttonStates[indexArrayScan] = getButtonState(indexArrayScan);
+  uint8_t test = getButtonState(indexArrayScan);
   //// display buttonStates in one line
-  displayButtonPressed(buttonStates);
+  if (test == 0 && indexArrayScan != 8)
+  {
+    Serial.print("i = ");
+    Serial.println(indexArrayScan);
+    Serial.print("value = ");
+    Serial.println(test);
+    Serial.print("PCF = ");
+    Serial.println(pinArrayPCF[indexArrayScan]);
+    Serial.print("Classic = ");
+    Serial.println(pinArrayClassicPin[indexArrayScan]);
+    Serial.println(" ");
+  }
+  
   //displayMenuButtonStates();
   //analogPots();
   indexArrayScan++;
@@ -325,13 +378,14 @@ void testHardware(){
 
 void loop()
 {
+
   // TODO : Test keyboard
   // uint8_t noteToPlay = keyboard.accordion(indexArrayScan);
-  getButtonStates(buttonStates);
-  displayButtonPressed(buttonStates);
-  //testHardware()
+  //getButtonStates(buttonStates);
+  //displayButtonPressed(buttonStates);
+  testHardware();
   
-  ;
+  
   //drum1.noteOn();
   AudioProcessorUsageMaxReset();
 }
