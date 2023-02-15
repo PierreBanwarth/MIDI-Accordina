@@ -11,6 +11,7 @@
 #include "concertina_lib/keyboard.cpp"
 #include "concertina_lib/musicMath.h"
 
+#include <Audio.h>
 #include <Wire.h>
 #include <PCF8575.h>
 #include <stdlib.h>
@@ -21,26 +22,43 @@
 #include "SSD1306AsciiWire.h"
 #include "RotaryEncoder.h" // RotaryEncoder v1.5.0 library by Matthais Hertel
 
+// GUItool: begin automatically generated code
+AudioSynthSimpleDrum drum2; // xy=399,244
+AudioSynthSimpleDrum drum3; // xy=424,310
+AudioSynthSimpleDrum drum1; // xy=431,197
+AudioSynthSimpleDrum drum4; // xy=464,374
+AudioMixer4 mixer1;         // xy=737,265
+AudioOutputI2S i2s1;        // xy=979,214
+AudioConnection patchCord1(drum2, 0, mixer1, 1);
+AudioConnection patchCord2(drum3, 0, mixer1, 2);
+AudioConnection patchCord3(drum1, 0, mixer1, 0);
+AudioConnection patchCord4(drum4, 0, mixer1, 3);
+AudioConnection patchCord5(mixer1, 0, i2s1, 0);
+AudioConnection patchCord6(mixer1, 0, i2s1, 1);
+AudioControlSGTL5000 sgtl5000_1; // xy=930,518
+// GUItool: end automatically generated code
 
-
+static uint32_t next;
 
 #define PRESSED 0
 #define RELEASED 1
 
+    // Info pin 33 seems to be broken
 
-// Info pin 33 seems to be broken
+// declaration of the screen object SSD1306AsciiWire oled on second i2c bus (SDA=21, SCL=22)
 
-// declaration of the screen object SSD1306AsciiWire oled on second i2c bus (SDA=21, SCL=22) 
+
 SSD1306AsciiWire oled; // I2C address 0x3C for 128x64
 
 
 // declaration of the encoder object RotaryEncoder encoder(2, 3);
-RotaryEncoder encoder(2, 3);
+RotaryEncoder encoder(14, 15);
 uint8_t encoderPosition = 0;
-uint8_t buttonEncoder = 0;
+uint8_t buttonEncoder = 8;
+
 // declaration of a display object
 // TODO TEST DISPLAY AND KEYBOARD
-// Display display(&oled, 0x3C, &Wire1);
+Display display(&oled, 0x3C, &Wire);
 // Keyboard keyboard(0x20, 0x22, &Wire);
 
 uint8_t topPotPin = 0;
@@ -49,8 +67,8 @@ uint8_t previousTopPotValue = 0;
 uint8_t previousBottomPotValue = 0;
 
 // declaration of the PCF8575 objects
-PCF8575 PCF1(0x20, &Wire);
-PCF8575 PCF2(0x22, &Wire);
+PCF8575 PCF1(0x20, &Wire1);
+PCF8575 PCF2(0x22, &Wire1);
 
 // declaration of the button states array
 uint8_t buttonStates[36];
@@ -78,7 +96,7 @@ const byte pinArrayPCF[36] = {
   13, 14, 15, 
   7, 6, 5, 
   0, 3, 2, 
-  1, 0, 16, 
+  1, 55, 16, 
   17, 18, 19, 
   20, 21, 22, 
   31, 23, 30, 
@@ -102,12 +120,57 @@ const byte pinArrayClassicPin[36] = {
 };
 
 uint8_t indexArrayScan = 0;
+
 void setup(){
+  pinMode(buttonEncoder, INPUT);
+  digitalWrite(buttonEncoder, HIGH);
+
+  Wire.begin();           // Init I2C
+  Wire.setClock(400000L); // Fast mode
+//
+  oled.begin(&Adafruit128x64, 0x3C);
+  oled.clear();
+  oled.setFont(Adafruit5x7);
+  
+  oled.print("bonjour");
   indexArrayScan = 0;
   // initialize screen
   // TODO : TEST DISPLAY AND KEYBOARD
   //display.initDisplay();
   //display.displayMainTitle();
+
+  Serial.begin(115200);
+  // audio library init
+  AudioMemory(15);
+
+  next = millis() + 1000;
+
+  AudioNoInterrupts();
+
+  drum1.frequency(60);
+  drum1.length(1500);
+  drum1.secondMix(0.0);
+  drum1.pitchMod(0.55);
+
+  drum2.frequency(60);
+  drum2.length(300);
+  drum2.secondMix(0.0);
+  drum2.pitchMod(1.0);
+
+  drum3.frequency(550);
+  drum3.length(400);
+  drum3.secondMix(1.0);
+  drum3.pitchMod(0.5);
+
+  drum4.frequency(1200);
+  drum4.length(150);
+  drum4.secondMix(0.0);
+  drum4.pitchMod(0.0);
+
+  sgtl5000_1.enable();
+  sgtl5000_1.volume(0.5);
+
+  AudioInterrupts();
 
   // initialize tab values
   for(int i = 0; i < 36; i++){
@@ -119,13 +182,13 @@ void setup(){
   for (uint8_t pin = 0; pin < 7; pin++)
   {
     pinMode(pin, INPUT_PULLUP);
+    digitalWrite(pin, HIGH);
   }
 
   while (!Serial)
   {
     delay(10);
   }
-  Serial.begin(115200);
   Serial.print("PCF8575_LIB_VERSION:\t");
   Serial.println(PCF8575_LIB_VERSION);
 
@@ -167,13 +230,19 @@ int getButtonState(uint8_t index){
     if(pinArrayPCF[index] < 16){
       return PCF1.readButton(pinArrayPCF[index]);
     }
+    
     else if(pinArrayPCF[index] < 32){
       return PCF2.readButton(pinArrayPCF[index]-16);
+    }
+    if (pinArrayPCF[index] == 55)
+    {
+      return PCF1.readButton(0);
     }
   }
   else{
     return digitalRead(pinArrayClassicPin[index]);
   }
+  return 0;
 
 }
 int getSouffletState(){
@@ -184,29 +253,7 @@ int getOldState(uint8_t index){
   return oldButtonStates[index];
 }
 
-int noteToPlay(uint8_t index){
-  int button = getButtonState(index);
-  int oldState = getOldState(index);
-  int soufflet = getSouffletState();
-  uint8_t notePousser = pousser[index];
-  uint8_t noteTirer = tirer[index];
 
-  // if button is pressed and soufflet is pressed
-  if(button == PRESSED && soufflet == PRESSED){
-    // if button was not pressed before
-    if(oldState == RELEASED){
-      // play note
-    }
-    else{
-      // do nothing
-      return 0;
-    }
-  }
-  else{
-    // do nothing
-    return 0;
-  }
-}
 
 // a function that get from PCF1 and PCF2 return an array of the buttons states
 void getButtonStates(uint8_t buttonStates[36]){
@@ -234,14 +281,19 @@ void displayButtonPressed(uint8_t buttonStates[36]){
         if(pinArrayPCF[i] < 16){
           // pretty display of the button pressed
           Serial.print("PCF1 : ");
-          Serial.print(pinArrayPCF[i]);
-         
+          Serial.print(pinArrayPCF[i]);   
         }
         else if(pinArrayPCF[i] < 32){
           Serial.print("PCF2 : ");
           Serial.print(pinArrayPCF[i]);
         }
-          }
+        // if pin array = 55
+        if (pinArrayPCF[i] == 55)
+        {
+          // pretty display of the button pressed
+          Serial.print("PCF1 : 0");
+        }
+      }
       else{
         Serial.print("Other : ");
         Serial.print(pinArrayClassicPin[i]);
@@ -265,7 +317,7 @@ void displayMenuButtonStates(){
 void testEncoder(){
   encoder.tick();
   uint8_t newValue = encoder.getPosition();
-  uint8_t newPressed = digitalRead(buttonEncoder);
+  uint8_t newPressed = digitalRead(8);
 
   if(encoderPosition != newValue){
     encoderPosition = newValue;
@@ -273,10 +325,9 @@ void testEncoder(){
     Serial.println(encoderPosition);
   }
   // if encoderButtonState is Pressed and was not pressed before
-  if(newPressed == PRESSED && newPressed != buttonEncoder){
+  if(newPressed == PRESSED){
     Serial.println("Encoder Button Pressed");
   }
-  buttonEncoder = newPressed;
 }
 void analogPots()
 {
@@ -299,16 +350,15 @@ void analogPots()
 }
 
 void testHardware(){
+  oled.println("test");
   if(indexArrayScan >= 36){
     indexArrayScan = 0;
   }
-
   buttonStates[indexArrayScan] = getButtonState(indexArrayScan);
-  // display buttonStates in one line
+  //// display buttonStates in one line
   displayButtonPressed(buttonStates);
-  displayMenuButtonStates();
-  testEncoder();
-  analogPots();
+  //displayMenuButtonStates();
+  //analogPots();
   indexArrayScan++;
 }
 
@@ -319,4 +369,13 @@ void loop()
   // uint8_t noteToPlay = keyboard.accordion(indexArrayScan);
   testHardware();
 
+  if (millis() == next){
+    next = millis() + 1000;
+    drum2.noteOn();
+    Serial.print("Diagnostics: ");
+    Serial.print(AudioProcessorUsageMax());
+    Serial.print(" ");
+    Serial.println(AudioMemoryUsageMax());
+    AudioProcessorUsageMaxReset();
+  }
 }
