@@ -32,7 +32,7 @@ AudioConnection patchCord6(mixer1, 0, i2s1, 1);
 AudioControlSGTL5000 sgtl5000_1; // xy=930,518
 // GUItool: end automatically generated code
 
-
+#define SOUFFLET_PIN 1
 #define PRESSED 0
 #define RELEASED 1
 
@@ -100,13 +100,13 @@ const byte pinArrayPCF[36] = {
 };
 
 const byte pinArrayClassicPin[36] = {
-  0, 6, 2, 
+  5, 6, 2, 
   3, 0, 0, 
   0, 0, 0, 
   0, 0, 0, 
   0, 0, 0, 
   4, 0, 0, 
-  0, 5, 0, 
+  0, 0, 0, 
   0, 0, 0,
   0, 0, 0,
   0, 0, 0,
@@ -126,8 +126,6 @@ void setup(){
   oled.begin(&Adafruit128x64, 0x3C);
   oled.clear();
   oled.setFont(Adafruit5x7);
-  
-  oled.print("bonjour");
   indexArrayScan = 0;
   // initialize screen
   // TODO : TEST DISPLAY AND KEYBOARD
@@ -165,8 +163,10 @@ void setup(){
   }
   pinMode(topPotPin, INPUT);
   pinMode(bottomPotPin, INPUT);
+  
   int error;
   int found = 0;
+
   for (int address = 1; address < 127; address++)
   {
     // The i2c_scanner uses the return value of
@@ -174,10 +174,9 @@ void setup(){
     // a device did acknowledge to the address.
     Wire1.beginTransmission(address);
     error = Wire1.endTransmission();
-  
     if (error == 0)
     {
-      Serial.print(address, HEX);
+      oled.print(address);
       if(found == 0){
         PCF1.setAddress(address);
         found++;
@@ -186,34 +185,34 @@ void setup(){
       }
     }
   }
-    if (!PCF1.begin())
-    {
-      oled.println("could not initialize...");
-    }
-    if (!PCF1.isConnected())
-    {
-      oled.println("=> not connected");
-    }
-    else
-    {
-      oled.println("=> connected!!");
-    }
-    if (!PCF2.begin())
-    {
-      oled.println("could not initialize...");
-    }
-    if (!PCF2.isConnected())
-    {
-      oled.println("=> not connected");
-    }
-    else
-    {
-      oled.println("=> connected!!");
-    }
-    delay(3000);
-    PCF1.setButtonMask(0xFFFF);
-    PCF2.setButtonMask(0xFFFF);
+  if (!PCF1.begin())
+  {
+    oled.println("could not initialize...");
   }
+  if (!PCF1.isConnected())
+  {
+    oled.println("=> not connected");
+  }
+  else
+  {
+    oled.println("=> connected!!");
+  }
+  if (!PCF2.begin())
+  {
+    oled.println("could not initialize...");
+  }
+  if (!PCF2.isConnected())
+  {
+    oled.println("=> not connected");
+  }
+  else
+  {
+    oled.println("=> connected!!");
+  }
+  delay(3000);
+  PCF1.setButtonMask(0xFFFF);
+  PCF2.setButtonMask(0xFFFF);
+}
 
 // function of menuing with the encoder
 // Five menu items
@@ -238,15 +237,6 @@ int getButtonState(uint8_t index){
   return 0;
 
 }
-int getSouffletState(){
-  return digitalRead(SOUFFLET_PIN);
-}
-
-int getOldState(uint8_t index){
-  return oldButtonStates[index];
-}
-
-
 
 // a function that get from PCF1 and PCF2 return an array of the buttons states
 void getButtonStates(uint8_t buttonStates[36]){
@@ -265,44 +255,6 @@ void getButtonStates(uint8_t buttonStates[36]){
 
 
 
-// display in line of all array of button states not pressed yet
-// keep in memory the last state of the keyboard and display only the new pressed buttons
-void displayButtonPressed(uint8_t buttonStates[36]){
-  for(int i = 0; i < 36; i++){
-    if(buttonStates[i] == 0){
-      if(pinArrayPCF[i] != 0){    
-        if(pinArrayPCF[i] < 16){
-          // pretty display of the button pressed
-          Serial.print("PCF1 : ");
-          Serial.print(pinArrayPCF[i]);   
-          Serial.print(" ");
-
-        }
-        else if(pinArrayPCF[i] < 32){
-          Serial.print("PCF2 : ");
-          Serial.print(pinArrayPCF[i]);
-          Serial.print(" ");
-        
-        }
-
-        // if pin array = 55
-        if (pinArrayPCF[i] == 55)
-        {
-          // pretty display of the button pressed
-          Serial.print("PCF1 : 0 ");
-
-        }
-      }
-      else{
-        Serial.print("Other : ");
-        Serial.print(pinArrayClassicPin[i]);
-        Serial.print(" ");
-      }
-    }
-    
-  }
-  Serial.println();
-}
 
 void displayMenuButtonStates(){
   for(int i = 0; i < 6; i++){
@@ -329,6 +281,11 @@ void testEncoder(){
     Serial.println("Encoder Button Pressed");
   }
 }
+void displaySouffletState(){
+  if(digitalRead(SOUFFLET_PIN) == 0){
+    Serial.println("Soufflet Pressed");
+  }
+}
 void analogPots()
 {
   //uint8_t topPotValue = map(analogRead(topPotPin), 0, 1023, 0, 127);
@@ -336,14 +293,14 @@ void analogPots()
   uint8_t topPotValue = analogRead(topPotPin);
   uint8_t bottomPotValue = analogRead(bottomPotPin);
   
-  if (topPotValue != previousTopPotValue)                                                 // No deadzone on this, as tiny random changes are inconsequential, maybe even desireable?
+  if (topPotValue != previousTopPotValue) // No deadzone on this, as tiny random changes are inconsequential, maybe even desireable?
   {
     previousTopPotValue = topPotValue;
     Serial.print("Top Pot Value: ");
     Serial.println(topPotValue);
   }
   // same for bottom pot
-  if (bottomPotValue != previousBottomPotValue)                                                 // No deadzone on this, as tiny random changes are inconsequential, maybe even desireable?
+  if (bottomPotValue != previousBottomPotValue)// No deadzone on this, as tiny random changes are inconsequential, maybe even desireable?
   {
     previousBottomPotValue = bottomPotValue;
     Serial.print("Bottom Pot Value: ");
@@ -359,18 +316,17 @@ void testHardware(){
   //// display buttonStates in one line
   if (test == 0 && indexArrayScan != 8)
   {
+    if (digitalRead(SOUFFLET_PIN) == 0)
+    {
+      Serial.print("Push ");
+    }else{
+      Serial.print("Pull ");
+    }
     Serial.print("i = ");
     Serial.println(indexArrayScan);
     Serial.print("value = ");
     Serial.println(test);
-    Serial.print("PCF = ");
-    Serial.println(pinArrayPCF[indexArrayScan]);
-    Serial.print("Classic = ");
-    Serial.println(pinArrayClassicPin[indexArrayScan]);
-    Serial.println(" ");
   }
-  
-  //displayMenuButtonStates();
   //analogPots();
   indexArrayScan++;
 }
@@ -381,11 +337,13 @@ void loop()
 
   // TODO : Test keyboard
   // uint8_t noteToPlay = keyboard.accordion(indexArrayScan);
+  
   //getButtonStates(buttonStates);
   //displayButtonPressed(buttonStates);
   testHardware();
-  
-  
+  //testHardware();
+  //displaySouffletState();
+  //displayMenuButtonStates();
   //drum1.noteOn();
   AudioProcessorUsageMaxReset();
 }
