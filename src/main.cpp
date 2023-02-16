@@ -117,40 +117,17 @@ const byte pinArrayClassicPin[36] = {
 uint8_t indexArrayScan = 0;
 
 void setup(){
-  pinMode(buttonEncoder, INPUT);
-  digitalWrite(buttonEncoder, HIGH);
-
-  Wire.begin();           // Init I2C
-  Wire.setClock(400000L); // Fast mode
-//
-  oled.begin(&Adafruit128x64, 0x3C);
-  oled.clear();
-  oled.setFont(Adafruit5x7);
-  indexArrayScan = 0;
-  // initialize screen
-  // TODO : TEST DISPLAY AND KEYBOARD
-  //display.initDisplay();
-  //display.displayMainTitle();
-
   Serial.begin(115200);
-  // audio library init
-  AudioMemory(15);
-  AudioNoInterrupts();
-  drum1.frequency(60);
-  drum1.length(1500);
-  drum1.secondMix(0.0);
-  drum1.pitchMod(0.55);
-  sgtl5000_1.enable();
-  sgtl5000_1.volume(0.3);
-  AudioInterrupts();
 
   // initialize tab values
   for(int i = 0; i < 36; i++){
     buttonStates[i] = 1;
     oldButtonStates[i] = 1;
   }
-
+  
   // set all pins to input with pull-up
+  pinMode(buttonEncoder, INPUT);
+  digitalWrite(buttonEncoder, HIGH);
   for (uint8_t pin = 0; pin < 7; pin++)
   {
     pinMode(pin, INPUT_PULLUP);
@@ -163,10 +140,21 @@ void setup(){
   }
   pinMode(topPotPin, INPUT);
   pinMode(bottomPotPin, INPUT);
-  
+
+  // Init screen 
+  Wire.begin();           // Init I2C
+  Wire1.begin();           // Init I2C
+
+  Wire.setClock(400000L); // Fast mode
+
+  oled.begin(&Adafruit128x64, 0x3C);
+  oled.clear();
+  oled.setFont(Adafruit5x7);
+
+  oled.println("Accordina MIDI");
   int error;
   int found = 0;
-
+  
   for (int address = 1; address < 127; address++)
   {
     // The i2c_scanner uses the return value of
@@ -176,7 +164,6 @@ void setup(){
     error = Wire1.endTransmission();
     if (error == 0)
     {
-      oled.print(address);
       if(found == 0){
         PCF1.setAddress(address);
         found++;
@@ -185,6 +172,7 @@ void setup(){
       }
     }
   }
+
   if (!PCF1.begin())
   {
     oled.println("could not initialize...");
@@ -209,9 +197,19 @@ void setup(){
   {
     oled.println("=> connected!!");
   }
-  delay(3000);
   PCF1.setButtonMask(0xFFFF);
   PCF2.setButtonMask(0xFFFF);
+
+    // audio library init
+  AudioMemory(15);
+  AudioNoInterrupts();
+  drum1.frequency(60);
+  drum1.length(1500);
+  drum1.secondMix(0.0);
+  drum1.pitchMod(0.55);
+  sgtl5000_1.enable();
+  sgtl5000_1.volume(0.3);
+  AudioInterrupts();
 }
 
 // function of menuing with the encoder
