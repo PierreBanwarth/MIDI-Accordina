@@ -139,57 +139,57 @@ Configuration newPresets[] = {
 enum
 {
     // DEFINING MIDI notes
-    C1 = 0,
+    Cn1 = 0,
     Cs1 = 1,
-    D1 = 2,
+    Dn1 = 2,
     Ds1 = 3,
-    E1 = 4,
-    F1 = 5,
+    En1 = 4,
+    Fn1 = 5,
     Fs1 = 6,
-    G1 = 7,
+    Gn1 = 7,
     Gs1 = 8,
     An1 = 9,
     As1 = 10,
     Bn1 = 11,
 
-    C2 = 0 + 12,
+    Cn2 = 0 + 12,
     Cs2 = 1 + 12,
     D2 = 2 + 12,
     Ds2 = 3 + 12,
-    E2 = 4 + 12,
-    F2 = 5 + 12,
+    En2 = 4 + 12,
+    Fn2 = 5 + 12,
     Fs2 = 6 + 12,
-    G2 = 7 + 12,
+    Gn2 = 7 + 12,
     Gs2 = 8 + 12,
     An2 = 9 + 12,
     As2 = 10 + 12,
-    B2 = 11 + 12,
+    Bn2 = 11 + 12,
 
-    C3 = 0 + 24,
+    Cn3 = 0 + 24,
     Cs3 = 1 + 24,
-    D3 = 2 + 24,
+    Dn3 = 2 + 24,
     Ds3 = 3 + 24,
-    E3 = 4 + 24,
-    F3 = 5 + 24,
+    En3 = 4 + 24,
+    Fn3 = 5 + 24,
     Fs3 = 6 + 24,
-    G3 = 7 + 24,
+    Gn3 = 7 + 24,
     Gs3 = 8 + 24,
     An3 = 9 + 24,
     As3 = 10 + 24,
-    B3 = 11 + 24,
+    Bn3 = 11 + 24,
 
-    C4 = 0 + 36,
+    Cn4 = 0 + 36,
     Cs4 = 1 + 36,
-    D4 = 2 + 36,
+    Dn4 = 2 + 36,
     Ds4 = 3 + 36,
     En4 = 4 + 36,
-    F4 = 5 + 36,
+    Fn4 = 5 + 36,
     Fs4 = 6 + 36,
-    G4 = 7 + 36,
+    Gn4 = 7 + 36,
     Gs4 = 8 + 36,
     An4 = 9 + 36,
     As4 = 10 + 36,
-    B4 = 11 + 36,
+    Bn4 = 11 + 36,
     An5 = 9 + 48,
     Eb1 = As1,
     Bb1 = Ds1,
@@ -273,21 +273,33 @@ uint8_t bourdonActif[] = {
 
 
 const byte pousser[] = {
-  An2, G2, Cs3, C3, Gs2, B2,
-  E2, G2, C2, Cs2, G1, D2,
-  Bn1, An1, E1, C1, C1, D3,
-  Bn1, D1, F4, An1, B4, En4,
-  G4, C4, Cs4, D4, G3, Fs3,
-  B3, E3, An3, G3, E1, G1,
+// 0  1    2  3   4    5 
+  Bn4, Gn4, Fn4, 0, Cn4, Cs4,
+// 6   7   8   9   10  11 
+  Dn4, Gs3, Gn3, Bn3, En3, An3,
+//12  13  14   15   16 17 
+  Gn3, Cn3, Cs3, En4, 0, 0,
+//18  19  20  21   22  23
+  Cn1, En1, B1, An1, Gn1, D2,
+//24   25  26  27  28  29
+  Cs2, Cn2, Gn2, An2, En2, Bn2,
+//30   31  32  33 34 35
+  Gs2, Gn2, Dn3, 0, 0, 0,
 };
 
 const byte tirer[] = {
-  G2, An2, Ds3, B2, As2, C3,
-  F2, An2, D2, Fs2, B1, Fs2,
-  D2, As1, F1, G1, G3, E3,
-  C3, E3, An4, B3, Fs4, B3,
-  En4, An3, Ds4, C4, F3, As3,
-  An3, D3, G3, Fs3, D3, An2
+// 0    1    2  3  4  5 
+  Fs4, En4, An4, 0, An3, Ds4,
+// 6   7   8   9   10  11 
+  Cn4, Bb3, Fn3, An3, Bn3, Gn3,
+// 12  13  14   15  16 17 
+  Fs3, Bn2, Ds3, Bn3, 0, 0,
+//18  19  20  21   22  23
+  Gn1, Fn1, D2, Bb1, Dn1, Fs2,
+//24   25  26  27  28  29
+  Ds2, D2, An2, Gn2, Fn2, Cn3,
+//30   31  32  33 34 35
+  Bb2, An2, En3, 0, 0, 0
 };
 
 String keyNames[23] = {
