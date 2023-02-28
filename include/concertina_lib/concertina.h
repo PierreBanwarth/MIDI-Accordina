@@ -125,16 +125,6 @@
 
 enum waveform { SIN = 1, COS = 2, TRI = 3, SAW = 4, SQUARE = 5};
 
-Configuration newPresets[] = {
-  Configuration("Squ Tri",2,11),
-  Configuration("Squ Tri",4,11),
-  Configuration("Squ Tri",1,11),
-  Configuration("Squ Tri",1,11),
-  Configuration("Squ Tri",1,11),
-  Configuration("Squ Tri",1,11),
-  Configuration("Squ Tri",1,11)
-
-};
 
 enum
 {
@@ -232,14 +222,7 @@ uint8_t oldStateTirer[] = {
   1, 1, 1, 1, 1, 1,
 };
 
-uint8_t bourdonActif[] = {
-  0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0,
-  0, 0, 0, 0, 0, 0,
-};
+
 //
 //const byte pousser[36] = {
 //  F2, G2, An2, 

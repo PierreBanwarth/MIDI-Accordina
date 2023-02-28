@@ -2,9 +2,6 @@
 
 #include "concertina_lib/concertina.h"
 
-#include "concertina_lib/display.hpp"
-#include "concertina_lib/display.cpp"
-
 #include "concertina_lib/configuration.h"
 #include "concertina_lib/configuration.cpp"
 #include "concertina_lib/keyboard.hpp"
@@ -373,11 +370,22 @@ const uint8_t buttonReleased = 1;
 // declare each value of an 36 buttons array
 // values of each pin sorted by rows
 
-const byte pinMenu[6] = {
+const byte pinBourdon[6] = {
   39, 34, 35, 
   36, 37, 38, 
 };
+const byte noteBourdon[6] = {
+  2,4,5,
+  7,9,11,
+};
+byte bourdonActif[6] = {
+  0,0,0,
+  0,0,0,
+};
 
+byte oldStateBourdon[6] = {
+  0,0,0,0,0,0,
+};
 
 // replace 0 by value of the pin and add 32
 const byte pinArrayPCF[36] = {
@@ -513,7 +521,7 @@ void setup(){
   PCF1.setButtonMask(0xFFFF);
   PCF2.setButtonMask(0xFFFF);
 
-  AudioMemory(160);
+  AudioMemory(80);
   amp1.gain(0.5);
 
   // waveform1.begin(WAVEFORM_SINE);
@@ -582,6 +590,8 @@ int getButtonState(uint8_t index){
   return returnValue;
 
 }
+
+
 
 
 void testEncoder(){
@@ -763,7 +773,33 @@ static void accordion(uint8_t sens_soufflet, uint8_t index){
     }
   }
 }
+static void noteSynthBourdon(uint8_t index)
+{
+  digitalWrite(pinBourdon[index], HIGH);
+  uint8_t bouton = digitalRead(pinBourdon[index]);
+  uint8_t note = noteBourdon[index];
+  if (bouton == LOW)
+  {
+    if(oldStateBourdon[index] == BUTTON_RELEASED){
+      oldStateBourdon[index] = BUTTON_PRESSED;
 
+      if (bourdonActif[index] == 1)
+      {
+        noteOff(note, index + 36);
+        bourdonActif[index] = 0;
+      }
+      else
+      {
+        noteOn(note, index + 36);
+        bourdonActif[index] = 1;
+      }
+    }
+  }
+  else
+  {
+    oldStateBourdon[index] = BUTTON_RELEASED;
+  }
+}
 
 void testButtons(){
   int test = 0;
@@ -826,7 +862,9 @@ void loop()
   buttonStates[state] = getButtonState(state);
   accordion(sens_soufflet, state);
   state++;
-  
+  for(int i=0; i<6;i++){
+    noteSynthBourdon(i);
+  }
 
 
 }
