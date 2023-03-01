@@ -19,11 +19,13 @@ class Menu
         int oldButtonState = HIGH;
         int currentMode = MODE_SYNTH;
         int modeMidi = DRUM;
+        int oscillator = 0;
+        int wichOsc = 0;
         Display display;
-        Configuration configuration = Configuration("main", 1,0,1,2,3,4,0,0,0,0,0,0);
+        Configuration configuration = Configuration("main", 1,0,4,3,2,1,0,0,0,0,0,0);
     public:
         explicit Menu(Display d);
-        Configuration updateState(uint8_t newEncoderValue, uint8_t buttonPressed,RotaryEncoder encoder);
+        Configuration updateState(uint8_t newEncoderValue, uint8_t buttonPressed, RotaryEncoder *encoder);
         void initDisplay(uint8_t initEncoderPosition);
         void displayState();
 };  

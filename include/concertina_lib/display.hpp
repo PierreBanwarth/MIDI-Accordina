@@ -69,12 +69,13 @@ public:
     "Fa/Sib",
     "Fa#/Si"
   };
+  
   String waveFormNames[5] = {
     "Sin",
-    "Cos",
-    "Tri",
     "Saw",
     "Square",
+    "tri",
+    "pulse",
   };
 
  };

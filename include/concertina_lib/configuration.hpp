@@ -31,19 +31,19 @@ public: // Access specifier
   void setAllOsc(uint8_t a);
 
   Configuration(
-      String s,
-      uint8_t o,
-      uint8_t shift,
-      int8_t oct1,
-      int8_t oct2,
-      int8_t oct3,
-      int8_t oct4,
-      uint8_t osc1,
-      uint8_t osc2,
-      uint8_t brd1,
-      uint8_t brd2,
-      uint8_t attackT,
-      uint8_t attackB
+    String s,
+    uint8_t o,
+    uint8_t shift,
+    int8_t oct1,
+    int8_t oct2,
+    int8_t oct3,
+    int8_t oct4,
+    uint8_t osc1,
+    uint8_t osc2,
+    uint8_t brd1,
+    uint8_t brd2,
+    uint8_t attackT,
+    uint8_t attackB
   );
   Configuration();
 };

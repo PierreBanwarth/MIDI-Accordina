@@ -192,10 +192,10 @@ void Display::displayOscillatorChoice(uint8_t newPos, Configuration conf){
   _oled->println("Wave Form :");
   printOscWave(conf);
   _oled->println("  Sin");
-  _oled->println("  Cos");
-  _oled->println("  Tri");
   _oled->println("  Saw");
   _oled->println("  Square");
+  _oled->println("  tri");
+  _oled->println("  pulse");
   _oled->println("  Back");
   _oled->setCursor(0, (newPos%6)+2);
   _oled->print(">");

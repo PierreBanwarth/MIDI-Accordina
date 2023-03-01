@@ -40,52 +40,51 @@ void Menu::displayState(){
         display.displayMenuAttack(configuration, encoderValue);
     }else if (currentState == OCT_OSC || currentState == WAVE){
         display.displayOctOrWave(
-        currentState,
-        encoderValue,
-        configuration
+            currentState,
+            encoderValue,
+            configuration
         );
     }else if (currentState == OSCILLATOR){
-        display.displayOscillatorChoice(currentState, configuration);
+        display.displayOscillatorChoice(encoderValue, configuration);
     }
 }
-Configuration Menu::updateState(uint8_t newEncoderValue, uint8_t buttonPressed, RotaryEncoder encoder){
+
+Configuration Menu::updateState(uint8_t newEncoderValue, uint8_t buttonPressed, RotaryEncoder *encoder){
     //  else if(currentState == ATTACK_MAIN){
     //    displayAttackSwitch(configuration.attackTheme, encoderValue);
     //  }else if(currentState == ATTACK_DRONE){
     //    displayAttackSwitch(configuration.attackBourdon, encoderValue);
     //  }
-    
     if(encoderValue != newEncoderValue){
         encoderValue = newEncoderValue;
         displayState();
     }
     
     if(oldButtonState != buttonPressed && buttonPressed == LOW){
-        int oscillator = 0;
-        int wichOsc = 0;
+
 
         if(currentState==OCTAVE){
             configuration.octave = (encoderValue)%6;
             currentState = MAIN;
-            encoder.setPosition(1);
+            encoder->setPosition(1);
 
         }else if(currentState==HALFTONE){
             configuration.shiftHalfTone = (encoderValue%23);
             currentState = MAIN;
-            encoder.setPosition(2);
+            encoder->setPosition(2);
 
         }else if(currentState==ATTACK_MAIN){
             configuration.attackTheme = (configuration.attackTheme+(5*encoderValue))%255;
             currentState = MENU_ATTACK;
-            encoder.setPosition(0);
+            encoder->setPosition(0);
         }
         else if(currentState==ATTACK_DRONE){
             configuration.attackBourdon = (configuration.attackBourdon+(5*encoderValue))%255;
             currentState = MENU_ATTACK;
-            encoder.setPosition(1);
+            encoder->setPosition(1);
         }else if(currentState==DISPLAY_STATE){
             currentState = MAIN;
-            encoder.setPosition(4);
+            encoder->setPosition(4);
         }else if(currentState == MIDI_SETTINGS){
             if(encoderValue%2 == 0){
                 if(modeMidi == DRUM){
@@ -108,11 +107,11 @@ Configuration Menu::updateState(uint8_t newEncoderValue, uint8_t buttonPressed, 
             }
             else if(encoderValue%6 == 1){
                 currentState = OCTAVE;
-                encoder.setPosition(configuration.octave);
+                encoder->setPosition(configuration.octave);
             }
             else if(encoderValue%6 == 2){
                 currentState = HALFTONE;
-                encoder.setPosition(configuration.shiftHalfTone);
+                encoder->setPosition(configuration.shiftHalfTone);
             }
             else if(encoderValue%6 == 3){
                 if(currentMode == MODE_MIDI){
@@ -120,14 +119,14 @@ Configuration Menu::updateState(uint8_t newEncoderValue, uint8_t buttonPressed, 
                 }else if(currentMode == MODE_SYNTH){
                     currentState = SYNTH_SETTINGS;
                 }
-                encoder.setPosition(0);
+                encoder->setPosition(0);
             }
             else if(encoderValue%6 == 4){
                 currentState = DISPLAY_STATE;
             }
             else if(encoderValue%6 == 5){
                 currentState = PRESETS;
-                encoder.setPosition(0);
+                encoder->setPosition(0);
             }
         }else if(currentState==PRESETS){
             //if(encoderValue%6 == 0){
@@ -137,7 +136,7 @@ Configuration Menu::updateState(uint8_t newEncoderValue, uint8_t buttonPressed, 
             else{
                 configuration = newPresets[encoderValue];
             }
-            encoder.setPosition(5);
+            encoder->setPosition(5);
         }
         else if(currentState==MENU_ATTACK){
             if(encoderValue%3 == 0){
@@ -149,7 +148,7 @@ Configuration Menu::updateState(uint8_t newEncoderValue, uint8_t buttonPressed, 
             else if(encoderValue%3 == 2){
                 currentState = SYNTH_SETTINGS;
             }
-            encoder.setPosition(1);
+            encoder->setPosition(1);
         }else if(currentState==SYNTH_SETTINGS){
             if(encoderValue%4 == 0){
                 currentState = WAVE;
@@ -164,17 +163,17 @@ Configuration Menu::updateState(uint8_t newEncoderValue, uint8_t buttonPressed, 
             {
                 currentState = MAIN;
             }
-            encoder.setPosition(0);
+            encoder->setPosition(0);
         }else if(currentState==CHOOSE_OCTAVE){
             int newOctave = (encoderValue%6)-3;
             configuration.setOscOct(wichOsc, newOctave);
-            encoder.setPosition(wichOsc-1);
+            encoder->setPosition(wichOsc-1);
             currentState = OCT_OSC;
 
         }else if(currentState==OCT_OSC){
             if(encoderValue%6 == 5){
                 currentState = SYNTH_SETTINGS;
-                encoder.setPosition(2);
+                encoder->setPosition(2);
             }else{
                 currentState = CHOOSE_OCTAVE;
                 wichOsc = (encoderValue%6)+1;
@@ -183,28 +182,28 @@ Configuration Menu::updateState(uint8_t newEncoderValue, uint8_t buttonPressed, 
             if (encoderValue % 6 == 5)
             {
                 currentState = SYNTH_SETTINGS;
-                encoder.setPosition(0);
+                encoder->setPosition(0);
             }else{
                 currentState = OSCILLATOR;
-                encoder.setPosition(0);
+                encoder->setPosition(0);
                 oscillator = (encoderValue % 6)+1;
             }
         }else if(currentState==OSCILLATOR){
             if(encoderValue%6 != 5){
-            if(oscillator == 1){
-                configuration.activeOsc1 = encoderValue%6;
-            }else if(oscillator == 2){
-                configuration.activeOsc2 = encoderValue%6;
-            }else if(oscillator == 3){
-                configuration.activeBrd1 = encoderValue%6;
-            }else if (oscillator == 4){
-                configuration.activeBrd2 = encoderValue%6;
-            }else if (oscillator == 5){
-                configuration.setAllOsc(encoderValue%6);
-            }
+                if(oscillator == 1){
+                    configuration.activeOsc1 = encoderValue%6;
+                }else if(oscillator == 2){
+                    configuration.activeOsc2 = encoderValue%6;
+                }else if(oscillator == 3){
+                    configuration.activeBrd1 = encoderValue%6;
+                }else if (oscillator == 4){
+                    configuration.activeBrd2 = encoderValue%6;
+                }else if (oscillator == 5){
+                    configuration.setAllOsc(encoderValue%6);
+                }
             }else if(encoderValue%6 == 5){
                 currentState = WAVE;
-                encoder.setPosition(oscillator-1);
+                encoder->setPosition(oscillator-1);
                 oscillator = 0;
             }
         }
