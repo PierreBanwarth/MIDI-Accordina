@@ -1,6 +1,21 @@
-#include "configuration.h"
+#include "configuration.hpp"
 #include <Arduino.h>
 
+Configuration::Configuration(){
+  presetName = "main";
+  octave = 1;
+  shiftHalfTone = 0;
+  octaveOsc1 = 1;
+  octaveOsc2 = 2;
+  octaveBourdon1 = 3;
+  octaveBourdon2 = 4;
+  activeOsc1 = 0;
+  activeOsc2 = 0;
+  activeBrd1 = 0;
+  activeBrd2 = 0;
+  attackTheme = 0;
+  attackBourdon = 0;
+}
 Configuration::Configuration(
     String s,
     uint8_t o,
@@ -14,7 +29,8 @@ Configuration::Configuration(
     uint8_t brd1,
     uint8_t brd2,
     uint8_t attackT,
-    uint8_t attackB)
+    uint8_t attackB
+)
 {
   presetName = s;
   octave = o;

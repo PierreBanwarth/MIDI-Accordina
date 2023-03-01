@@ -3,7 +3,7 @@
 #include "Arduino.h"
 #include <MIDI.h>
 //include configutation
-#include "configuration.h"
+#include "configuration.hpp"
 
 #define OCTAVE 1
 #define MODE 2
@@ -283,6 +283,15 @@ const byte tirer[] = {
   Ds2, D2, An2, Gn2, Fn2, Cn3,
 //30   31  32  33 34 35
   Bb2, An2, En3, 0, 0, 0
+};
+
+Configuration newPresets[6] = {
+  Configuration(),
+  Configuration(),
+  Configuration(),
+  Configuration(),
+  Configuration(),
+  Configuration(),
 };
 
 String keyNames[23] = {

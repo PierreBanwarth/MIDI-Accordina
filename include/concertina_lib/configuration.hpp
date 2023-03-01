@@ -45,6 +45,7 @@ public: // Access specifier
       uint8_t attackT,
       uint8_t attackB
   );
+  Configuration();
 };
 
 #endif

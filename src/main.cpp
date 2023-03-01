@@ -2,10 +2,12 @@
 
 #include "concertina_lib/concertina.h"
 
-#include "concertina_lib/configuration.h"
-#include "concertina_lib/configuration.cpp"
+#include "concertina_lib/configuration.hpp"
 #include "concertina_lib/keyboard.hpp"
-#include "concertina_lib/keyboard.cpp"
+#include "concertina_lib/display.hpp"
+#include "concertina_lib/menu.hpp"
+#include "concertina_lib/menu.cpp"
+
 #include "concertina_lib/musicMath.h"
 
 #include <PCF8575.h>
@@ -22,28 +24,6 @@
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
-
-
-
-// GUItool: begin automatically generated code
-byte waveformPitch[16][8] = {
-{255, 255, 255, 255, 255, 255, 255, 255},   // Default to 255 as an "unused" indicator as it's outside the range of pitch values 0-127
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-{255, 255, 255, 255, 255, 255, 255, 255},
-};
 
 // GUItool: end automatically generated code
 
@@ -320,8 +300,6 @@ AudioAmplifier amp1; // xy=623.25,378.25
 AudioConnection patchCord300(mixer15, amp1);
 AudioConnection patchCord301(amp1, 0, i2s1, 0);
 
-
-
 AudioControlSGTL5000     sgtl5000_1;
 
 // // GUItool: end automatically generated code
@@ -347,6 +325,8 @@ RotaryEncoder encoder(14, 15);
 
 uint8_t encoderPosition = 0;
 uint8_t buttonEncoder = 8;
+
+Configuration configuration;
 
 // declaration of a display object
 // TODO TEST DISPLAY AND KEYBOARD
@@ -419,6 +399,8 @@ const byte pinArrayClassicPin[36] = {
 };
 uint8_t noteIsOn[36];
 uint8_t indexArrayScan = 0;
+Display display = Display(&oled, 0x3C, &Wire);
+Menu menu = Menu(display);
 
 void setup(){
   // Serial.begin(115200);
@@ -451,17 +433,13 @@ void setup(){
   pinMode(bottomPotPin, INPUT);
 
   // Init I2C connections 
-  Wire.begin();           // Init I2C for the screen
-  // Wire1.setClock(600000L); 
-  // Wire1.begin();           // Init I2C for PCF8575 (keyboard)
-
-  // screen settings init
-  //Wire.setClock(400000L); // Fast mode
+  Wire.begin();
   oled.begin(&Adafruit128x64, 0x3C);
   oled.clear();
   oled.setFont(Adafruit5x7);
 
-  oled.println("Accordina MIDI");
+  display.displayMainTitle();
+
   int error;
   int found = 0;
   //I2C Address scanner
@@ -490,7 +468,7 @@ void setup(){
       
     }
   }
-  delay(1000);
+  delay(3000);
   // Checking if the PCF8575 are connected
   if (!PCF1.begin())
   {
@@ -523,48 +501,10 @@ void setup(){
 
   AudioMemory(80);
   amp1.gain(0.5);
-
-  // waveform1.begin(WAVEFORM_SINE);
-  // waveform1.amplitude(0.5);
-  // waveform1.frequency(50);
-  // waveform1.pulseWidth(0.15);
-
-
-  // envelope1.attack(10);
-  // envelope1.hold(10);
-  // envelope1.decay(25);
-  // envelope1.sustain(0.4);
-  // envelope1.release(70);
-  // audio library init
-  //  AudioMemory(20);
-   sgtl5000_1.enable();
-   sgtl5000_1.volume(0.05);
-  //
-  //
-  //  // for i in envelope
-  //
-  //  for(int i=0; i<42; i++){
-  //
-  //    waveform1[i].begin(WAVEFORM_SINE);
-  //    waveform1[i].amplitude(0.75);
-  //    waveform1[i].frequency(50);
-  //    waveform1[i].pulseWidth(0.60);
-  //
-  //    waveform2[i].begin(WAVEFORM_TRIANGLE);
-  //    waveform2[i].amplitude(0.75);
-  //    waveform2[i].frequency(50);
-  //    waveform2[i].pulseWidth(0.60);
-  //    mixer[i].gain(0, 0.15);
-  //    mixer[i].gain(1, 0.15);
-  //    mixer[i].gain(2, 0.15);
-  //    mixer[i].gain(3, 0.15);
-  //    envelope[i].attack(10);
-  //    envelope[i].hold(10);
-  //    envelope[i].decay(25);
-  //    envelope[i].sustain(0.4);
-  //    envelope[i].release(70);
-  //  }
-  oled.clear();
+  sgtl5000_1.enable();
+  encoder.tick();
+  uint8_t newValue = encoder.getPosition();
+  menu.initDisplay(newValue);
 }
 
 // function of menuing with the encoder
@@ -594,27 +534,13 @@ int getButtonState(uint8_t index){
 
 
 
-void testEncoder(){
+Configuration menuManagement(){
   encoder.tick();
   uint8_t newValue = encoder.getPosition();
-  uint8_t newPressed = digitalRead(8);
-
-  if(encoderPosition != newValue){
-    encoderPosition = newValue;
-    Serial.print("Encoder : ");
-    Serial.println(encoderPosition);
-  }
-  // if encoderButtonState is Pressed and was not pressed before
-  if(newPressed == PRESSED){
-    Serial.println("Encoder Button Pressed");
-  }
+  uint8_t newPressed = digitalRead(buttonEncoder);
+  return menu.updateState(newValue, newPressed, encoder);
 }
 
-void displaySouffletState(){
-  if(digitalRead(SOUFFLET_PIN) == 0){
-    Serial.println("Soufflet Pressed");
-  }
-}
 void analogPots()
 {
   //uint8_t topPotValue = map(analogRead(topPotPin), 0, 1023, 0, 127);
@@ -680,6 +606,7 @@ void printKey(int index)
   }
 
 }
+
 float noteToFreq(int note) {
   return midiPitchFrequencyMap[note];
 }
@@ -773,6 +700,7 @@ static void accordion(uint8_t sens_soufflet, uint8_t index){
     }
   }
 }
+
 static void noteSynthBourdon(uint8_t index)
 {
   digitalWrite(pinBourdon[index], HIGH);
@@ -860,11 +788,12 @@ void loop()
   sens_soufflet = digitalRead(SOUFFLET_PIN);
   // https://forum.pjrc.com/search.php?searchid=7853170
   buttonStates[state] = getButtonState(state);
+
   accordion(sens_soufflet, state);
   state++;
+
   for(int i=0; i<6;i++){
     noteSynthBourdon(i);
   }
-
-
+  configuration = menuManagement();
 }
