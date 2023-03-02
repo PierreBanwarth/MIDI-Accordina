@@ -17,6 +17,8 @@
 #define OSCILLATOR 10
 #define WAVE 11
 
+
+
 #define BUTTON_RELEASED 1
 #define BUTTON_PRESSED 0
 
@@ -26,8 +28,18 @@
 #define DRUM 14
 #define THEME 15
 #define HALFTONE 16
-
 #define PRESETS 17
+
+#define OCT1_SET 18
+#define OCT2_SET 19
+#define OCT3_SET 20
+#define OCT4_SET 21
+
+
+#define WAV1_SET 22
+#define WAV2_SET 23
+#define WAV3_SET 24
+#define WAV4_SET 25
 
 
 #define MODE_MIDI 0
@@ -285,13 +297,55 @@ const byte tirer[] = {
   Bb2, An2, En3, 0, 0, 0
 };
 
+
+// replace 0 by value of the pin and add 32
+const byte pinArrayPCF[36] = {
+  4, 0, 0, 
+  0, 8, 9, 
+  10, 11, 0, 
+  13, 14, 15, 
+  7, 6, 5, 
+  0, 3, 2, 
+  1, 55, 16, 
+  17, 18, 19, 
+  20, 21, 22, 
+  31, 23, 30, 
+  29, 28, 27, 
+  26, 25, 24, 
+};
+
+const byte pinArrayClassicPin[36] = {
+  0, 6, 5, 
+  0, 0, 0, 
+  0, 0, 33, 
+  0, 0, 0, 
+  0, 0, 0, 
+  4, 0, 0, 
+  0, 0, 0, 
+  0, 0, 0,
+  0, 0, 0,
+  0, 0, 0,
+  0, 0, 0,
+  0, 0, 0,
+};
+
+const byte pinBourdon[6] = {
+  39, 34, 35, 
+  36, 37, 38, 
+};
+
+const byte noteBourdon[6] = {
+  2,4,5,
+  7,9,11,
+};
+
 Configuration newPresets[6] = {
-  Configuration(),
-  Configuration(),
-  Configuration(),
-  Configuration(),
-  Configuration(),
-  Configuration(),
+  Configuration("base", 1,0,4,3,2,1,0,0,0,0,0,0),
+  Configuration("test1", 1,0,4,3,2,1,1,1,2,2,0,0),
+  Configuration("test2", 1,0,4,3,2,1,2,2,3,3,0,0),
+  Configuration("test3", 1,0,4,3,2,1,3,3,4,4,0,0),
+  Configuration("test4", 1,0,4,3,2,1,1,2,3,4,0,0),
+  Configuration("test5", 1,0,4,3,2,1,1,2,3,4,0,0),
 };
 
 String keyNames[23] = {

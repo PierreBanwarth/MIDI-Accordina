@@ -31,7 +31,7 @@ public:
   void displayPresetsMenu(uint8_t newPos);
   void displayMainMenu(uint8_t mode, uint8_t newPos);
   void displayMidiSettings(uint8_t mode, uint8_t newPos);
-  void displaySynthSettingsFirstMenu(uint8_t newPos);
+  void displaySynthSettingsFirstMenu(uint8_t newPos, Configuration conf, int state);
   void displayMenuAttack(Configuration conf, uint8_t newPos);
   void printOscOct(Configuration conf);
   void displayOctaveMenu(uint8_t newPos, Configuration conf);
@@ -43,6 +43,8 @@ public:
      uint8_t newPos,
      Configuration conf
   );
+  void displayOscByInt(int value);
+  void displayOctByInt(int value);
   void clear();
   String keyNames[23] = {
     "Sol#/Do#",
@@ -73,9 +75,9 @@ public:
   String waveFormNames[5] = {
     "Sin",
     "Saw",
-    "Square",
+    "Squ",
     "tri",
-    "pulse",
+    "pul",
   };
 
  };

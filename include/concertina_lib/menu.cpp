@@ -32,7 +32,10 @@ void Menu::displayState(){
     }else if(currentState == MIDI_SETTINGS){
         display.displayMidiSettings(modeMidi, encoderValue);
     }else if(currentState == SYNTH_SETTINGS){
-        display.displaySynthSettingsFirstMenu(encoderValue);
+        display.displaySynthSettingsFirstMenu(encoderValue, configuration, currentState);
+    }else if(currentState >= OCT1_SET && currentState <= WAV4_SET){
+        display.displaySynthSettingsFirstMenu(encoderValue, configuration, currentState);
+
     }else if(currentState == DISPLAY_STATE){
         display.displayState(configuration);
     }
@@ -136,7 +139,7 @@ Configuration Menu::updateState(uint8_t newEncoderValue, uint8_t buttonPressed, 
             else{
                 configuration = newPresets[encoderValue];
             }
-            encoder->setPosition(5);
+            // encoder->setPosition(5);
         }
         else if(currentState==MENU_ATTACK){
             if(encoderValue%3 == 0){
@@ -150,21 +153,74 @@ Configuration Menu::updateState(uint8_t newEncoderValue, uint8_t buttonPressed, 
             }
             encoder->setPosition(1);
         }else if(currentState==SYNTH_SETTINGS){
-            if(encoderValue%4 == 0){
-                currentState = WAVE;
+
+            if(encoderValue%9 == 0){
+                currentState=WAV1_SET;
             }
-            else if(encoderValue%4 == 1){
-                currentState = MENU_ATTACK;
+            if(encoderValue%9 == 1){
+                currentState=WAV2_SET;
             }
-            else if(encoderValue%4 == 2){
-                currentState = OCT_OSC;
+            if(encoderValue%9 == 2){
+                currentState=WAV3_SET;
             }
-            else if (encoderValue%4 == 3)
-            {
-                currentState = MAIN;
+            if(encoderValue%9 == 3){
+                currentState=WAV4_SET;
             }
+            if(encoderValue%9 == 4){
+                currentState=OCT1_SET;
+            }
+            if(encoderValue%9 == 5){
+                currentState=OCT2_SET;
+            }
+            if(encoderValue%9 == 6){
+                currentState=OCT3_SET;
+            }
+            if(encoderValue%9 == 7){
+                currentState=OCT4_SET;
+            }
+            if(encoderValue%9 == 8){
+                currentState = MAIN;        
+                encoder->setPosition(0);
+            }
+        }else if(currentState == WAV1_SET ){
+            configuration.activeOsc1 = encoderValue%5;
+            currentState = SYNTH_SETTINGS;
             encoder->setPosition(0);
-        }else if(currentState==CHOOSE_OCTAVE){
+        }else if(currentState == WAV2_SET ){
+            configuration.activeOsc2 = encoderValue%5;
+            currentState = SYNTH_SETTINGS;
+            encoder->setPosition(1);
+        }else if(currentState == WAV3_SET ){
+            configuration.activeBrd1 = encoderValue%5;
+            currentState = SYNTH_SETTINGS;
+            encoder->setPosition(2);
+
+        }else if(currentState == WAV4_SET ){
+            configuration.activeBrd2 = encoderValue%5;
+            currentState = SYNTH_SETTINGS;
+            encoder->setPosition(3);
+        
+        }else if(currentState == OCT1_SET ){
+            configuration.setOscOct(1, (encoderValue%6)-3);
+            currentState = SYNTH_SETTINGS;
+            encoder->setPosition(4);
+
+        }else if(currentState == OCT2_SET ){
+            configuration.setOscOct(2, (encoderValue%6)-3);
+            currentState = SYNTH_SETTINGS;
+            encoder->setPosition(5);
+
+        }else if(currentState == OCT3_SET ){
+            configuration.setOscOct(3, (encoderValue%6)-3);
+            currentState = SYNTH_SETTINGS;
+            encoder->setPosition(6);
+
+        }else if(currentState == OCT4_SET ){
+            configuration.setOscOct(4, (encoderValue%6)-3);
+            currentState = SYNTH_SETTINGS;
+            encoder->setPosition(7);
+        }
+        else if(currentState==CHOOSE_OCTAVE){
             int newOctave = (encoderValue%6)-3;
             configuration.setOscOct(wichOsc, newOctave);
             encoder->setPosition(wichOsc-1);

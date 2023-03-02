@@ -78,10 +78,13 @@ AudioConnection          patchCord155(envelope[5], 0, mixer2, 1);
 AudioConnection          patchCord190(mixer1, 0, mixer3, 0);
 AudioConnection          patchCord191(mixer2, 0, mixer3, 1);
 
+
 AudioAmplifier amp1; // xy=623.25,378.25
 
-AudioConnection patchCord300(mixer3, amp1);
-AudioConnection patchCord301(amp1, 0, i2s1, 0);
+// AudioConnection patchCord300(mixer3, bitcrusher1);
+
+AudioConnection patchCord301(mixer3, amp1);
+AudioConnection patchCord303(amp1, 0, i2s1, 0);
 
 AudioControlSGTL5000     sgtl5000_1;
 
@@ -104,7 +107,7 @@ PCF8575 PCF1(0x20, &Wire);
 PCF8575 PCF2(0x22, &Wire);
 
 // declaration of the encoder object RotaryEncoder encoder(2, 3);
-RotaryEncoder encoder(15, 14);
+RotaryEncoder encoder(15, 14, RotaryEncoder::LatchMode::TWO03);
 
 uint8_t encoderPosition = 0;
 uint8_t buttonEncoder = 8;
@@ -132,16 +135,6 @@ const uint8_t buttonPressed = 0;
 const uint8_t buttonReleased = 1;
 // declare each value of an 36 buttons array
 // values of each pin sorted by rows
-
-const byte pinBourdon[6] = {
-  39, 34, 35, 
-  36, 37, 38, 
-};
-
-const byte noteBourdon[6] = {
-  2,4,5,
-  7,9,11,
-};
 byte noteFree[6] = {
   0, 0, 0, 
   0, 0, 0, 
@@ -156,36 +149,6 @@ byte oldStateBourdon[6] = {
   0,0,0,0,0,0,
 };
 
-// replace 0 by value of the pin and add 32
-const byte pinArrayPCF[36] = {
-  4, 0, 0, 
-  0, 8, 9, 
-  10, 11, 0, 
-  13, 14, 15, 
-  7, 6, 5, 
-  0, 3, 2, 
-  1, 55, 16, 
-  17, 18, 19, 
-  20, 21, 22, 
-  31, 23, 30, 
-  29, 28, 27, 
-  26, 25, 24, 
-};
-
-const byte pinArrayClassicPin[36] = {
-  0, 6, 5, 
-  0, 0, 0, 
-  0, 0, 33, 
-  0, 0, 0, 
-  0, 0, 0, 
-  4, 0, 0, 
-  0, 0, 0, 
-  0, 0, 0,
-  0, 0, 0,
-  0, 0, 0,
-  0, 0, 0,
-  0, 0, 0,
-};
 uint8_t noteIsOn[36];
 uint8_t indexArrayScan = 0;
 Display display = Display(&oled, 0x3C, &Wire);
@@ -257,7 +220,7 @@ void setup(){
       
     }
   }
-  delay(3000);
+  delay(2000);
   // Checking if the PCF8575 are connected
   if (!PCF1.begin())
   {
@@ -289,11 +252,17 @@ void setup(){
   PCF2.setButtonMask(0xFFFF);
 
   AudioMemory(80);
+  // freeverb1.roomsize(0.1);
   amp1.gain(0.5);
   sgtl5000_1.enable();
+
   encoder.tick();
   uint8_t newValue = encoder.getPosition();
   menu.initDisplay(newValue);
+  for(int i=0; i<6; i++){
+    waveform1[i].amplitude(0.2);
+    waveform2[i].amplitude(0.2);
+  }
 }
 
 // function of menuing with the encoder
@@ -411,19 +380,17 @@ void synthNoteOn(byte note, byte isDrone)
 {
   if (isDrone == 1)
     {
-      waveform1[5].amplitude(0.2);
-      waveform2[5].amplitude(0.2);
-      waveform1[5].frequency(midiPitchFrequencyMap[note + 12*(configuration.octaveBourdon1+configuration.octave)]);
-      waveform2[5].frequency(midiPitchFrequencyMap[note + 12*(configuration.octaveBourdon2+configuration.octave)]);
+
+      waveform1[5].frequency(midiPitchFrequencyMap[(note+configuration.shiftHalfTone) + 12*(configuration.octaveBourdon1+configuration.octave)]);
+      waveform2[5].frequency(midiPitchFrequencyMap[(note+configuration.shiftHalfTone) + 12*(configuration.octaveBourdon2+configuration.octave)]);
       envelope[5].noteOn();
       noteFree[5] = note;
     }else{
       for(int i =0; i<5; i++){
         if(noteFree[i] == 0){
-          waveform1[i].amplitude(0.2);
-          waveform2[i].amplitude(0.2);
-          waveform1[i].frequency(midiPitchFrequencyMap[note + 12*(configuration.octaveOsc1+configuration.octave)]);
-          waveform2[i].frequency(midiPitchFrequencyMap[note + 12*(configuration.octaveOsc2+configuration.octave)]);
+
+          waveform1[i].frequency(midiPitchFrequencyMap[(note+configuration.shiftHalfTone) + 12*(configuration.octaveOsc1+configuration.octave)]);
+          waveform2[i].frequency(midiPitchFrequencyMap[(note+configuration.shiftHalfTone) + 12*(configuration.octaveOsc2+configuration.octave)]);
           envelope[i].noteOn();
           noteFree[i] = note;
           break;
@@ -584,6 +551,7 @@ void testButtons(){
 int sens_soufflet =1;
 
 Configuration newConfiguration = Configuration();
+
 void deltaConfig(Configuration conf1, Configuration conf2){
   if(conf1.activeOsc1 != conf2.activeOsc1){
     for(int i=0; i<5; i++){

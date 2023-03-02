@@ -52,7 +52,7 @@ void Display::displayOsc(uint8_t i){
 
 void Display::displayMainTitle(){
   _oled->println("Accordina MIDI");
-  _oled->println("V 2.0.0.0");
+  _oled->println("V 3.0.1.2");
 }
 void Display::displayAttack(Configuration conf){
  _oled->print("VOsc: ");
@@ -106,10 +106,10 @@ void Display::displayAttackSwitch(uint8_t attack, uint8_t newPos){
   _oled->print(" ");
 }
 void Display::displayPresetsMenu(uint8_t newPos){
-  for(int i=0; i<7; i++){
+  for(int i=0; i<6; i++){
     _oled->print(" ");
-    // String name = newPresets[i].getName();
-    // _oled->println(name);
+    String name = newPresets[i].getName();
+    _oled->println(name);
   }
   _oled->println("  Back");
   _oled->setCursor(0, (newPos%8));
@@ -163,17 +163,142 @@ void Display::displayMenuAttack(Configuration conf, uint8_t newPos){
   _oled->print(">");
 
 }
-void Display::displaySynthSettingsFirstMenu(uint8_t newPos){
-  _oled->println("Synth");
+void Display::displaySynthSettingsFirstMenu(uint8_t newPos, Configuration conf, int state){
+  // _oled->println("Synth");
+  // _oled->println("");
+  // _oled->println("  Waveform");
+  // _oled->println("  Osc Oct");
+  // _oled->println("  Back");
+  // _oled->setCursor(0, (newPos%3)+2);
+  // #define OCT1_SET 12
+  // #define OCT2_SET 13
+  // #define OCT3_SET 14
+  // #define OCT4_SET 15
+
+
+  // #define WAV1_SET 16
+  // #define WAV2_SET 17
+  // #define WAV3_SET 18
+  // #define WAV4_SET 19
+
+  // _oled->print(">");
+  displayMainTitle();
+  _oled->println(" Osc1 Osc2 Brd1 Brd2");
+  _oled->print(" ");
+  if(state != WAV1_SET){
+    displayOsc(conf.activeOsc1);
+  }else{
+    _oled->print("<");
+    displayOscByInt(newPos);
+  }
+  _oled->print("  ");
+  if(state != WAV2_SET){
+    displayOsc(conf.activeOsc2);
+  }else{
+    _oled->print("<");
+    displayOscByInt(newPos);
+  }
+  _oled->print("  ");
+  if(state != WAV3_SET){
+    displayOsc(conf.activeBrd1);
+  }else{
+    _oled->print("<");
+    displayOscByInt(newPos);
+  }
+  _oled->print("  ");
+  if(state != WAV4_SET){
+    displayOsc(conf.activeBrd2);
+  }else{
+    _oled->print("<");
+    displayOscByInt(newPos);
+  }
   _oled->println("");
-  _oled->println("  Waveform");
-  _oled->println("  Volume");
-  _oled->println("  Osc Oct");
-  _oled->println("  Back");
-  _oled->setCursor(0, (newPos%4)+2);
-  _oled->print(">");
+  _oled->print("  ");
+  if(state != OCT1_SET){
+    _oled->print(conf.octaveOsc1);    
+  }else{
+    _oled->print("<");
+    displayOctByInt(newPos);
+  }
+  _oled->print("    ");
+  if(state != OCT2_SET){
+    _oled->print(conf.octaveOsc2);
+  }else{
+    _oled->print("<");
+    displayOctByInt(newPos);
+  }
+  _oled->print("    ");
+  if(state != OCT3_SET){
+    _oled->print(conf.octaveBourdon1);
+  }else{
+    _oled->print("<");
+    displayOctByInt(newPos);
+  }
+  _oled->print("    ");
+  if(state != OCT4_SET){
+    _oled->print(conf.octaveBourdon2);
+  }else{
+    _oled->print("<");
+    displayOctByInt(newPos);
+  }
+  _oled->println("");
+  _oled->print(" Back");
+  
+  byte space = 30;
+  if(state == SYNTH_SETTINGS){
+    if(newPos%9 == 0){
+      _oled->setCursor(0,3);
+    }
+    if(newPos%9 == 1){
+      _oled->setCursor(space,3);
+    }
+    if(newPos%9 == 2){
+      _oled->setCursor(2*space,3);
+    }
+    if(newPos%9 == 3){
+      _oled->setCursor(3*space,3);
+    }
+    if(newPos%9 == 4){
+      _oled->setCursor(0,4);
+    }
+    if(newPos%9 == 5){
+      _oled->setCursor(space,4);
+    }
+    if(newPos%9 == 6){
+      _oled->setCursor(2*space,4);
+    }
+    if(newPos%9 == 7){
+      _oled->setCursor(3*space,4);
+    }
+    if(newPos%9 == 8){
+      _oled->setCursor(0,5);
+    }
+    _oled->print(">");
+  }
 }
 
+void Display::displayOctByInt(int value){
+  _oled->print((value%6)-3);
+}
+
+void Display::displayOscByInt(int value){
+  if(value % 5 == 0){
+    _oled->print("Sin");
+  }
+  if(value % 5 == 1){
+    _oled->print("Saw");
+  }
+  if(value % 5 == 2){
+    _oled->print("Squ");
+  }
+  if(value % 5 == 3){
+    _oled->print("tri");
+  }
+  if(value % 5 == 4){
+    _oled->print("pul");
+  }
+
+}
 void Display::displayState(Configuration conf){
   displayMainTitle();
   _oled->print("Oct: ");
@@ -249,7 +374,7 @@ void Display::maindisplay(uint8_t newPos, uint8_t mode, uint8_t mode_midi, uint8
   }else if(menuActiveItem == MIDI_SETTINGS){
     displayMidiSettings(mode_midi, newPos);
   }else if(menuActiveItem == SYNTH_SETTINGS){
-    displaySynthSettingsFirstMenu(newPos);
+    displaySynthSettingsFirstMenu(newPos, conf, menuActiveItem);
   }else if(menuActiveItem == DISPLAY_STATE){
     displayState(
       conf
